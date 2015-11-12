@@ -49,10 +49,6 @@ describe AnswersController do
       expect(assigns(:answer)).to eq answer
     end
 
-    it 'question should be equal to answer question' do
-      expect(assigns(:answer).question_id).to eq question.id
-    end
-
     it 'renders edit view' do
       expect(response).to render_template :edit
     end
@@ -67,8 +63,8 @@ describe AnswersController do
         expect { post :create, answer: attributes_for(:answer), question_id: question }.to change(Answer, :count).by(1)
       end
 
-      it 'question should be equal to answer question' do
-        expect(assigns(:answer).question_id).to eq question.id
+      it 'answer should be added to question' do
+        expect { post :create, answer: attributes_for(:answer), question_id: question }.to change(question.answers, :count).by(1)
       end
 
       it 'redirects to show view' do
