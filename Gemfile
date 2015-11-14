@@ -31,9 +31,13 @@ end
 
 group :test do
   gem 'shoulda-matchers', require: false
+  gem 'capybara'
+  gem 'launchy'
+
 end
 
 gem 'slim-rails'
+gem 'devise'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
