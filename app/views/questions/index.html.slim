@@ -1,1 +1,7 @@
+h3 List of Questions
+
+- @questions.each do |q|
+  = q.title
+  = link_to 'Show', question_path(q)
+
 p= link_to 'Ask Question', new_question_path

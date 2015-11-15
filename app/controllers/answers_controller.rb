@@ -1,6 +1,9 @@
 class AnswersController < ApplicationController
-  before_action :set_answer, only: [:show, :edit, :update, :destroy]
-  before_action :set_question, only: [:new, :create]
+  before_action :set_user, except: [:index]
+  before_action :set_question, only: [:new, :create, :update, :destroy]
+  before_action :set_answer, only: [:show, :edit, :destroy, :update]
+
+
 
   def index
     @answers = Answer.all
@@ -11,39 +14,50 @@ class AnswersController < ApplicationController
   end
 
   def new
-    @answer = Answer.new
+    @answer = @user.answers.new
   end
 
   def edit
   end
 
   def create
-    @answer = @question.answers.new(answer_params)
+    @answer = @question.answers.new(answer_params.merge({ user: @user }))
 
     if @answer.save
-      redirect_to @answer
+      redirect_to question_path(@question)
     else
       render :new
     end
   end
 
   def update
-    if @answer.update(answer_params)
-      redirect_to @answer
+    if @question.user == @user
+      if @answer.update(answer_params)
+        flash[:notice] = 'Answer updated'
+      else
+        render :edit
+      end
     else
-      render :edit
+      flash[:alert] = 'Permision denied'
     end
+
+    redirect_to question_path(@question)
   end
 
   def destroy
-    @answer.destroy
-    redirect_to question_answers_path(@answer.question)
+    if @question.user == @user
+      @answer.destroy
+      flash[:notice] = 'Answer deleted'
+    else
+      flash[:alert] = 'Permision denied'
+    end
+    redirect_to question_path(@question)
   end
 
   private
 
   def set_answer
-    @answer = Answer.find(params[:id])
+    @answer =  @question.answers.find(params[:id])
   end
 
   def set_question
@@ -52,5 +66,9 @@ class AnswersController < ApplicationController
 
   def answer_params
     params.require(:answer).permit(:body)
+  end
+
+  def set_user
+    @user = current_user
   end
 end

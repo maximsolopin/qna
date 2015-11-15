@@ -67,8 +67,8 @@ describe AnswersController do
         expect { post :create, answer: attributes_for(:answer), question_id: question }.to change(question.answers, :count).by(1)
       end
 
-      it 'redirects to show view' do
-        expect(response).to redirect_to answer_path(assigns(:answer))
+      it 'redirects to question show view' do
+        expect(response).to redirect_to question_path(question)
       end
     end
 
@@ -108,7 +108,7 @@ describe AnswersController do
 
       it 'does not change answer attributes' do
         answer.reload
-        expect(answer.body).to eq 'MyString'
+        expect(answer.body).to eq 'MyStringAnswer'
       end
 
       it 're-renders edit view' do
