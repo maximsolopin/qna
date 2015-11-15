@@ -1,10 +1,7 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
-  before_action :set_user, except: [:index]
   before_action :set_question, only: [:new, :create]
   before_action :set_answer, only: [:show, :edit, :destroy, :update]
-
-
 
   def index
     @answers = Answer.all
@@ -22,7 +19,7 @@ class AnswersController < ApplicationController
   end
 
   def create
-    @answer = @question.answers.new(answer_params.merge({ user: @user }))
+    @answer = @question.answers.new(answer_params.merge({ user: current_user }))
 
     if @answer.save
       redirect_to @question
@@ -32,7 +29,7 @@ class AnswersController < ApplicationController
   end
 
   def update
-    if @answer.user == @user
+    if @answer.user == current_user
       if @answer.update(answer_params)
         flash[:notice] = 'Answer updated'
         redirect_to @answer.question
@@ -46,7 +43,7 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    if @answer.user == @user
+    if @answer.user == current_user
       @answer.destroy
       flash[:notice] = 'Answer deleted'
     else
@@ -67,9 +64,5 @@ class AnswersController < ApplicationController
 
   def answer_params
     params.require(:answer).permit(:body)
-  end
-
-  def set_user
-    @user = current_user
   end
 end
