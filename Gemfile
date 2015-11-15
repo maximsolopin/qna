@@ -28,7 +28,6 @@ group :test, :development do
   gem 'factory_girl_rails'
 end
 
-
 group :test do
   gem 'shoulda-matchers', require: false
   gem 'capybara'
@@ -36,8 +35,13 @@ group :test do
 
 end
 
-gem 'slim-rails'
 gem 'devise'
+
+gem 'slim-rails'
+gem 'bootstrap-sass', '~> 3.3.5'
+gem 'bootstrap_helper'
+gem 'font-awesome-sass'
+gem "autoprefixer-rails"
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

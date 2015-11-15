@@ -1,7 +1,20 @@
-h3 List of Questions
+div.container
+  div.background-style
+    div.text-center
+      h1.text-info Listing questions
 
-- @questions.each do |q|
-  = q.title
-  = link_to 'Show', question_path(q)
+table.table.table-hover
+  tbody
+    - @questions.each do |q|
+      tr
+        td.col-md-9 = q.title
+        td.col-md-2.text-center
+          small = "asked #{time_ago_in_words(q.created_at)} ago"
+        td.col-md-1.text-center = link_to '<i class= "link_show">Show</i>'.html_safe, question_path(q), class: 'fa fa-eye'
 
-p= link_to 'Ask Question', new_question_path
+div.text-center
+  nav
+    div.btn-group
+      = link_to 'Back', root_path, class: 'btn btn-primary', role: 'button'
+      = link_to 'Ask Question', new_question_path, class: 'btn btn-success', role: 'button'
+

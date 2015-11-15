@@ -9,7 +9,7 @@ feature 'User sign up', %q{
   scenario 'Sign up with valid attributes' do
     visit new_user_registration_path
 
-    fill_in 'Display name', with: 'Test user'
+    fill_in 'Display Name', with: 'Test user'
     fill_in 'Email', with: 'test@test.com'
     fill_in 'Password', with: '12345678'
     fill_in 'Password confirmation', with: '12345678'
@@ -23,7 +23,7 @@ feature 'User sign up', %q{
   scenario 'Sign up with invalid attributes' do
     visit new_user_registration_path
 
-    fill_in 'Display name', with: 'Test user'
+    fill_in 'Display Name', with: 'Test user'
     fill_in 'Email', with: 'testtest.com'
     fill_in 'Password', with: '12345678'
     fill_in 'Password confirmation', with: '123456'
