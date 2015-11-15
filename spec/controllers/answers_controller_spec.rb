@@ -1,22 +1,12 @@
 require 'rails_helper'
 
 describe AnswersController do
-  let (:question) { create(:question) }
-  let (:answer) { create(:answer, question: question) }
+  let(:user) { create(:user) }
+  let(:question) { create(:question, user: user) }
+  let(:answer) { create(:answer, question: question) }
 
-  describe 'GET #index' do
-    let(:answers) { create_list(:answer, 2, question: question) }
-
-    before { get :index, question_id: question }
-
-    it 'populates an array of all answers' do
-      expect(assigns(:answers)).to match_array(answers)
-    end
-
-    it 'renders index view' do
-      expect(response).to render_template :index
-    end
-  end
+  sign_in_user
+  before { answer.update!(user: @user) }
 
   describe 'GET #show' do
     before { get :show, id: answer, question_id: question }
@@ -31,6 +21,8 @@ describe AnswersController do
   end
 
   describe 'GET #new' do
+    sign_in_user
+
     before { get :new, question_id: question }
 
     it 'assigns a new Answer to @answer' do
@@ -55,7 +47,6 @@ describe AnswersController do
   end
 
   describe 'POST #create' do
-
     context 'with valid attributes' do
       before { post :create, answer: attributes_for(:answer), question_id: question }
 
@@ -99,7 +90,7 @@ describe AnswersController do
 
       it 'redirects to the updated answer' do
         patch :update, id: answer, answer: attributes_for(:answer), question_id: question
-        expect(response).to redirect_to answer
+        expect(response).to redirect_to question
       end
     end
 
@@ -126,7 +117,7 @@ describe AnswersController do
 
     it 'redirect to index view' do
       delete :destroy, id: answer, question_id: question
-      expect(response).to redirect_to question_answers_path(question)
+      expect(response).to redirect_to question
     end
   end
 end

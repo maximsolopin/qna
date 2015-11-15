@@ -10,7 +10,7 @@ feature 'Delete question or answer', %q{
   given(:second_user) { create(:user) }
 
   given!(:question) { create(:question, user: first_user) }
-  given!(:answer) { create(:answer, question: question) }
+  given!(:answer) { create(:answer, user: first_user, question: question) }
 
   scenario 'User can delete your question' do
     sign_in(first_user)

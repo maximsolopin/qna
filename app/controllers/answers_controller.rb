@@ -1,6 +1,7 @@
 class AnswersController < ApplicationController
+  before_action :authenticate_user!, except: [:index, :show]
   before_action :set_user, except: [:index]
-  before_action :set_question, only: [:new, :create, :update, :destroy]
+  before_action :set_question, only: [:new, :create]
   before_action :set_answer, only: [:show, :edit, :destroy, :update]
 
 
@@ -14,7 +15,7 @@ class AnswersController < ApplicationController
   end
 
   def new
-    @answer = @user.answers.new
+    @answer = Answer.new
   end
 
   def edit
@@ -24,40 +25,40 @@ class AnswersController < ApplicationController
     @answer = @question.answers.new(answer_params.merge({ user: @user }))
 
     if @answer.save
-      redirect_to question_path(@question)
+      redirect_to @question
     else
       render :new
     end
   end
 
   def update
-    if @question.user == @user
+    if @answer.user == @user
       if @answer.update(answer_params)
         flash[:notice] = 'Answer updated'
+        redirect_to @answer.question
       else
         render :edit
       end
     else
       flash[:alert] = 'Permision denied'
+      redirect_to question_answers_path(question)
     end
-
-    redirect_to question_path(@question)
   end
 
   def destroy
-    if @question.user == @user
+    if @answer.user == @user
       @answer.destroy
       flash[:notice] = 'Answer deleted'
     else
       flash[:alert] = 'Permision denied'
     end
-    redirect_to question_path(@question)
+    redirect_to @answer.question
   end
 
   private
 
   def set_answer
-    @answer =  @question.answers.find(params[:id])
+    @answer = Answer.find(params[:id])
   end
 
   def set_question
