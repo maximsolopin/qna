@@ -62,3 +62,9 @@ Shoulda::Matchers.configure do |config|
     with.library :rails
   end
 end
+
+RSpec::Matchers::define :have_link_or_button do |text|
+  match do |page|
+    Capybara.string(page.body).has_selector?(:link_or_button, text: text)
+  end
+end

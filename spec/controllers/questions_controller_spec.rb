@@ -2,7 +2,9 @@ require 'rails_helper'
 
 describe QuestionsController do
   let(:user) { create(:user) }
+  let(:user_second) { create(:user) }
   let(:question) { create(:question, user: user) }
+  let(:question_second) { create(:question, user: user_second) }
 
   sign_in_user
   before { question.update!(user: @user) }
@@ -106,12 +108,26 @@ describe QuestionsController do
 
       it 'does not change question attributes' do
         question.reload
-        expect(question.title).to eq 'MyString'
-        expect(question.body).to eq 'MyText'
+        expect(question.title).to_not eq 'new title'
+        expect(question.body).to_not eq nil
       end
 
       it 're-renders edit view' do
         expect(response).to render_template :edit
+      end
+    end
+
+    context 'invalid user' do
+      before { patch :update, id: question_second, question: attributes_for(:question) }
+
+      it 'does not change question attributes' do
+        question.reload
+        expect(question.title).to_not eq 'new title'
+        expect(question.body).to_not eq nil
+      end
+
+      it 'has not success status code' do
+        expect(response).not_to be_success
       end
     end
   end

@@ -1,6 +1,7 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
   before_action :set_question, only: [:show, :edit, :update, :destroy]
+  before_action :check_author, only: [:destroy, :update]
 
   def index
     @questions = Question.all
@@ -12,9 +13,6 @@ class QuestionsController < ApplicationController
 
   def new
     @question = Question.new
-  end
-
-  def edit
   end
 
   def create
@@ -30,27 +28,17 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    if @question.user == current_user
-      if @question.update(question_params)
-        redirect_to @question
-      else
-        render :edit
-      end
-    else
-      flash[:alert] = 'Permision denied'
+    if @question.update(question_params)
       redirect_to @question
+    else
+      render :edit
     end
   end
 
   def destroy
-    if @question.user == current_user
-      @question.destroy
-      flash[:notice] = 'Question deleted'
-      redirect_to questions_path
-    else
-      flash[:alert] = 'Permision denied'
-      redirect_to @question
-    end
+    @question.destroy
+    flash[:notice] = 'Question deleted'
+    redirect_to questions_path
   end
 
   private
@@ -60,6 +48,13 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    params.require(:question).permit(:title, :body, :user_id)
+    params.require(:question).permit(:title, :body)
+  end
+
+  def check_author
+    if @question.user != current_user
+      flash[:alert] = 'Permision denied'
+      redirect_to @question
+    end
   end
 end

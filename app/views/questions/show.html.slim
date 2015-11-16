@@ -3,11 +3,10 @@ p= @question.body
 
 - @question.answers.each do |answer|
   p = answer.body
-  - if user_signed_in? && answer.user = current_user
+  - if user_signed_in? && answer.user == current_user
   p = link_to 'Delete answer', answer, method: :delete
 
-- if user_signed_in? && @question.user = current_user
+- if user_signed_in? && @question.user == current_user
   p = link_to 'Delete question', @question, method: :delete
 
-- if user_signed_in?
-  = link_to "Create answer", new_question_answer_path(@question)
+= link_to "Create answer", new_question_answer_path(@question)

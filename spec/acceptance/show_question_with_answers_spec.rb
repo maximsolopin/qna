@@ -16,6 +16,10 @@ feature 'View question with answers', %q{
 
     expect(page).to have_content 'MyString'
     expect(page).to have_content 'MyText'
-    expect(page).to have_content 'MyStringAnswer'
+
+    answers.each do |a|
+      expect(page).to have_content a.body
+    end
+
   end
 end

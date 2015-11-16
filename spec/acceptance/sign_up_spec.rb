@@ -7,6 +7,9 @@ feature 'User sign up', %q{
 } do
 
   scenario 'Sign up with valid attributes' do
+    visit root_path
+    expect(page).to have_link_or_button('Sign up')
+
     visit new_user_registration_path
 
     fill_in 'Display Name', with: 'Test user'
@@ -16,6 +19,7 @@ feature 'User sign up', %q{
 
     click_button 'Sign up'
 
+    expect(page).to_not have_link_or_button('Sign up')
     expect(page).to have_content 'Welcome! You have signed up successfully.'
     expect(current_path).to eq root_path
   end
