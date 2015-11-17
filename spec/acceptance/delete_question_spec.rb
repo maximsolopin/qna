@@ -27,4 +27,9 @@ feature 'Delete question', %q{
 
     expect(page).not_to have_selector("input[type=submit][value='Delete question']")
   end
+
+  scenario 'Non-authencticated user ties delete question' do
+    visit question_path(question)
+    expect(page).not_to have_selector("Delete question")
+  end
 end
