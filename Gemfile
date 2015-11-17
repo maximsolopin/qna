@@ -43,6 +43,9 @@ gem 'bootstrap_helper'
 gem 'font-awesome-sass'
 gem "autoprefixer-rails"
 
+gem 'redcarpet', github: 'vmg/redcarpet'
+gem 'coderay'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

@@ -52,7 +52,7 @@ class QuestionsController < ApplicationController
   end
 
   def check_author
-    if @question.user != current_user
+    if @question.user.id != current_user.id
       flash[:alert] = 'Permision denied'
       redirect_to @question
     end

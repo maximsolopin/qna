@@ -4,11 +4,10 @@ describe AnswersController do
   let(:user) { create(:user) }
   let(:user_second) { create(:user) }
   let(:question) { create(:question, user: user) }
-  let(:answer) { create(:answer, question: question, user: user) }
+  let(:answer) { create(:answer, question: question, user: @user) }
   let(:answer_second) { create(:answer, question: question, user: user_second) }
 
   sign_in_user
-  before { answer.update!(user: @user) }
 
   describe 'GET #new' do
     before { get :new, question_id: question }
@@ -93,7 +92,7 @@ describe AnswersController do
 
       it 'does not change answer attributes' do
         answer.reload
-        expect(answer.body).to eq 'MyStringAnswer'
+        expect(answer.body).to eq answer.body
       end
 
       it 're-renders edit view' do
@@ -106,7 +105,7 @@ describe AnswersController do
 
       it 'does not change answer attributes' do
         answer.reload
-        expect(answer.body).to eq 'MyStringAnswer'
+        expect(answer.body).to eq answer.body
       end
 
       it 'redirects to question show view' do

@@ -14,8 +14,8 @@ feature 'View question with answers', %q{
 
     expect(current_path).to eq question_path(question)
 
-    expect(page).to have_content 'MyString'
-    expect(page).to have_content 'MyText'
+    expect(page).to have_content question.title
+    expect(page).to have_content question.body
 
     answers.each do |a|
       expect(page).to have_content a.body

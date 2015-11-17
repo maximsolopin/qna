@@ -3,6 +3,7 @@
 @import "bootstrap";
 @import "font-awesome-sprockets";
 @import "font-awesome";
+@import "coderay";
 
 html {
   position: relative;
@@ -107,4 +108,27 @@ input[type="password"]
 .link_show {
   position: absolute;
   left: -1000px;
+}
+
+.question-content .question {
+  width: 660px;
+  margin-bottom: 5px;
+  word-wrap: break-word;
+  font-size: 15px;
+  line-height: 1.3;
+  padding-left: 50px;
+}
+
+.content {
+    min-height: 450px;
+    margin: 0 auto;
+    width: 1000px;
+    padding: 15px;
+}
+
+.question-header {
+    font-size: 24px;
+    line-height: 1.35;
+    font-weight: normal;
+    margin-bottom: .5em;
 }

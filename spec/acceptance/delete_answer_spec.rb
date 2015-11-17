@@ -28,4 +28,17 @@ feature 'Delete answer', %q{
 
     expect(page).not_to have_selector("Delete answer")
   end
+
+  scenario 'Different user can\'t delete answer' do
+    sign_in(second_user)
+    visit question_path(question)
+
+    expect(page).not_to have_selector("Delete answer")
+  end
+
+  scenario 'Non-authencticated user ties delete answer' do
+    visit question_path(question)
+    expect(page).not_to have_selector("Delete answer")
+  end
 end
+
