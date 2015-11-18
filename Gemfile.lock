@@ -1,8 +1,8 @@
 GIT
-  remote: git://github.com/vmg/redcarpet.git
-  revision: da6d95b7469580db573dacde4179417cb07b012b
+  remote: https://github.com/l-plan/trix_on_rails.git
+  revision: 1d358e4a342f68bd5b14e7c4af5acb98680db610
   specs:
-    redcarpet (3.3.3)
+    trix_on_rails (0.1.4)
 
 GEM
   remote: https://rubygems.org/
@@ -65,7 +65,6 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
-    coderay (1.1.0)
     coffee-rails (4.1.0)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0, < 5.0)
@@ -225,7 +224,6 @@ DEPENDENCIES
   bootstrap_helper
   byebug
   capybara
-  coderay
   coffee-rails (~> 4.1.0)
   devise
   factory_girl_rails
@@ -236,13 +234,13 @@ DEPENDENCIES
   letter_opener
   pg
   rails (= 4.2.4)
-  redcarpet!
   rspec-rails
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
   shoulda-matchers
   slim-rails
   spring
+  trix_on_rails!
   turbolinks
   uglifier (>= 1.3.0)
   web-console (~> 2.0)

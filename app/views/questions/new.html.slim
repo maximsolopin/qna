@@ -1,6 +1,18 @@
+div.header
+  h1.text-center
+    | Add a new question
 = form_for @question do |f|
-  = f.label :title
-  = f.text_field :title
-  = f.label :body
-  = f.text_area :body
-  = f.submit 'Create'
+  div.question-content
+    div.add_question
+      = f.label :title
+      br
+      = f.text_field :title
+      br
+      = f.label :body
+      = f.text_area :body
+      br
+    div.add_question
+      trix-editor
+    div.add_question
+      = f.submit 'Create'
+

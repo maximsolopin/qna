@@ -5,7 +5,7 @@ div.container
       h1 = @question.title
     div.question-content
       div.question
-        = markdown(@question.body)
+        = @question.body
       div.answers
 
 - @question.answers.each do |answer|
@@ -17,3 +17,4 @@ div.container
   p = link_to 'Delete question', @question, method: :delete
 
 = link_to "Create answer", new_question_answer_path(@question)
+

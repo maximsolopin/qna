@@ -3,7 +3,7 @@
 @import "bootstrap";
 @import "font-awesome-sprockets";
 @import "font-awesome";
-@import "coderay";
+@import "trix";
 
 html {
   position: relative;
@@ -12,7 +12,40 @@ html {
 body {
   /* Margin bottom by footer height */
   margin-bottom: 60px;
+  font-family: -apple-system, sans-serif;
+  font-size: 16px;
+  line-height: 24px;
 }
+
+div {
+  padding-bottom: 5px;
+}
+
+/* Questions create */
+.add_question {
+    color: #686969;
+    font-size: 14px;
+    padding: 10px;
+}
+
+.add_question textarea {
+  width: 660px;
+  height: 60px;
+  margin: 5px 0px 0px;
+}
+
+.add_question trix-editor {
+  min-height: 200px;
+  width: 660px
+}
+
+.question-content {
+    min-height: 450px;
+    margin: 0 auto;
+    width: 700px;
+    padding: 15px;
+}
+
 .page-footer {
   position: absolute;
   bottom: 0;

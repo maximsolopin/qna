@@ -43,8 +43,7 @@ gem 'bootstrap_helper'
 gem 'font-awesome-sass'
 gem "autoprefixer-rails"
 
-gem 'redcarpet', github: 'vmg/redcarpet'
-gem 'coderay'
+gem 'trix_on_rails',  :git => 'https://github.com/l-plan/trix_on_rails.git'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
