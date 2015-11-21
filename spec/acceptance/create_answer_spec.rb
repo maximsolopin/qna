@@ -9,26 +9,27 @@ feature 'Create answer', %q{
   given(:user) { create(:user) }
   given!(:question) { create(:question) }
 
-  scenario 'Authencticated user create answer' do
+  scenario 'Authencticated user create answer', js: true do
     sign_in(user)
     visit question_path question
     expect(current_path).to eq question_path(question)
 
-    click_on "Create answer"
-
-    fill_in 'Body', with: 'Test answer body'
+    fill_in 'Your answer', with: 'Test answer body'
     click_on 'Create'
 
-    expect(page).to have_content 'Test answer'
+    within '.answers' do
+      expect(page).to have_content 'Test answer'
+    end
   end
 
-  scenario 'Non-authencticated user ties create answer' do
+  scenario 'Non-authencticated user ties create answer', js: true do
     visit question_path question
     expect(current_path).to eq question_path(question)
 
-    click_on "Create answer"
+    expect(page).to_not have_content 'Create Answer'
 
-    expect(page).to have_content 'You need to sign in or sign up before continuing.'
-    expect(current_path).to eq new_user_session_path
+    # click_on "Create"
+    # expect(page).to have_content 'You need to sign in or sign up before continuing.'
+    # expect(current_path).to eq new_user_session_path
   end
 end

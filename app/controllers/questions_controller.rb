@@ -8,7 +8,7 @@ class QuestionsController < ApplicationController
   end
 
   def show
-    @answers = @question.answers.all
+    @answer = @question.answers.build
   end
 
   def new
@@ -17,7 +17,6 @@ class QuestionsController < ApplicationController
 
   def create
     @question = current_user.questions.new(question_params)
-    @question.user = current_user
 
     if @question.save
       flash[:notice] = 'Your question successfully created'

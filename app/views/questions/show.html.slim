@@ -1,20 +1,18 @@
-div.container
-  div.header
-  div.content
-    div.question-header
+.container
+  .header
+  .content
+    .question-header
       h1 = @question.title
-    div.question-content
-      div.question
+    .question-content
+      .question
         = @question.body
-      div.answers
-
-- @question.answers.each do |answer|
-  p = answer.body
-  - if user_signed_in? && answer.user.id == current_user.id
-  p = link_to 'Delete answer', answer, method: :delete
+      .answers
+        = render 'answers'
+      = form_for [@question, @answer], remote: true do |f|
+        = f.label :body, 'Your answer'
+        = f.text_area :body
+        - if user_signed_in?
+          = f.submit 'Create'
 
 - if user_signed_in? && @question.user.id == current_user.id
   p = link_to 'Delete question', @question, method: :delete
-
-= link_to "Create answer", new_question_answer_path(@question)
-
