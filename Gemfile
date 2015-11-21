@@ -28,12 +28,22 @@ group :test, :development do
   gem 'factory_girl_rails'
 end
 
-
 group :test do
   gem 'shoulda-matchers', require: false
+  gem 'capybara'
+  gem 'launchy'
+
 end
 
+gem 'devise'
+
 gem 'slim-rails'
+gem 'bootstrap-sass', '~> 3.3.5'
+gem 'bootstrap_helper'
+gem 'font-awesome-sass'
+gem "autoprefixer-rails"
+
+gem 'trix_on_rails',  :git => 'https://github.com/l-plan/trix_on_rails.git'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
@@ -55,5 +65,6 @@ group :development do
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
+  gem 'letter_opener'
 end
 

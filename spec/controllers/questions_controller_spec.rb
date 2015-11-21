@@ -1,15 +1,21 @@
 require 'rails_helper'
 
 describe QuestionsController do
-  let(:question) { create(:question) }
+  let(:user) { create(:user) }
+  let(:user_second) { create(:user) }
+  let(:question) { create(:question, user: user) }
+  let(:question_second) { create(:question, user: user_second) }
+
+  sign_in_user
+  before { question.update!(user: @user) }
 
   describe 'GET #index' do
-    let(:questions) { create_list(:question, 2) }
+    let(:questions) { create_list(:question, 2, user: user) }
 
     before { get :index }
 
     it 'populates an array of all questions' do
-      expect(assigns(:questions)).to match_array(questions)
+      expect(assigns(:questions)).to match_array(Question.all)
     end
 
     it 'renders index view' do
@@ -102,12 +108,26 @@ describe QuestionsController do
 
       it 'does not change question attributes' do
         question.reload
-        expect(question.title).to eq 'MyString'
-        expect(question.body).to eq 'MyText'
+        expect(question.title).to_not eq 'new title'
+        expect(question.body).to_not eq nil
       end
 
       it 're-renders edit view' do
         expect(response).to render_template :edit
+      end
+    end
+
+    context 'invalid user' do
+      before { patch :update, id: question_second, question: attributes_for(:question) }
+
+      it 'does not change question attributes' do
+        question.reload
+        expect(question.title).to_not eq 'new title'
+        expect(question.body).to_not eq nil
+      end
+
+      it 'has not success status code' do
+        expect(response).not_to be_success
       end
     end
   end
@@ -115,8 +135,16 @@ describe QuestionsController do
   describe 'DELETE #destroy' do
     before { question }
 
-    it 'deletes question' do
+    it 'deletes yours own question' do
       expect { delete :destroy, id: question }.to change(Question, :count).by(-1)
+    end
+
+    context 'deletes not your question' do
+      let!(:another_question) { create(:question, user: user) }
+
+      it 'should not destroy question' do
+        expect{ delete :destroy, id: another_question }.to_not change(Question, :count)
+      end
     end
 
     it 'redirect to index view' do

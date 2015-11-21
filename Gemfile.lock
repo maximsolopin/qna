@@ -1,3 +1,9 @@
+GIT
+  remote: https://github.com/l-plan/trix_on_rails.git
+  revision: 1d358e4a342f68bd5b14e7c4af5acb98680db610
+  specs:
+    trix_on_rails (0.1.4)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -36,11 +42,29 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
+    addressable (2.3.8)
     arel (6.0.3)
+    autoprefixer-rails (6.1.0.1)
+      execjs
+      json
+    bcrypt (3.1.10)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
+    bootstrap-sass (3.3.5.1)
+      autoprefixer-rails (>= 5.0.0.1)
+      sass (>= 3.3.0)
+    bootstrap_helper (4.2.3)
+      railties (>= 4.0.0)
+      thor (~> 0.14)
+      will_paginate (>= 3.0.3)
     builder (3.2.2)
     byebug (8.1.0)
+    capybara (2.5.0)
+      mime-types (>= 1.16)
+      nokogiri (>= 1.3.3)
+      rack (>= 1.0.0)
+      rack-test (>= 0.5.4)
+      xpath (~> 2.0)
     coffee-rails (4.1.0)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0, < 5.0)
@@ -49,6 +73,13 @@ GEM
       execjs
     coffee-script-source (1.9.1.1)
     debug_inspector (0.0.2)
+    devise (3.5.2)
+      bcrypt (~> 3.0)
+      orm_adapter (~> 0.1)
+      railties (>= 3.2.6, < 5)
+      responders
+      thread_safe (~> 0.1)
+      warden (~> 1.2.3)
     diff-lcs (1.2.5)
     erubis (2.7.0)
     execjs (2.6.0)
@@ -57,6 +88,8 @@ GEM
     factory_girl_rails (4.5.0)
       factory_girl (~> 4.5.0)
       railties (>= 3.0.0)
+    font-awesome-sass (4.4.0)
+      sass (>= 3.2)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
     i18n (0.7.0)
@@ -68,6 +101,10 @@ GEM
       railties (>= 4.2.0)
       thor (>= 0.14, < 2.0)
     json (1.8.3)
+    launchy (2.4.3)
+      addressable (~> 2.3)
+    letter_opener (1.4.1)
+      launchy (~> 2.2)
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
     mail (2.6.3)
@@ -78,6 +115,7 @@ GEM
     multi_json (1.11.2)
     nokogiri (1.6.6.2)
       mini_portile (~> 0.6.0)
+    orm_adapter (0.5.0)
     pg (0.18.3)
     rack (1.6.4)
     rack-test (0.6.3)
@@ -108,6 +146,8 @@ GEM
       thor (>= 0.18.1, < 2.0)
     rake (10.4.2)
     rdoc (4.2.0)
+    responders (2.1.0)
+      railties (>= 4.2.0, < 5)
     rspec-core (3.3.2)
       rspec-support (~> 3.3.0)
     rspec-expectations (3.3.1)
@@ -164,21 +204,34 @@ GEM
     uglifier (2.7.2)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
+    warden (1.2.3)
+      rack (>= 1.0)
     web-console (2.2.1)
       activemodel (>= 4.0)
       binding_of_caller (>= 0.7.2)
       railties (>= 4.0)
       sprockets-rails (>= 2.0, < 4.0)
+    will_paginate (3.0.7)
+    xpath (2.0.0)
+      nokogiri (~> 1.3)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  autoprefixer-rails
+  bootstrap-sass (~> 3.3.5)
+  bootstrap_helper
   byebug
+  capybara
   coffee-rails (~> 4.1.0)
+  devise
   factory_girl_rails
+  font-awesome-sass
   jbuilder (~> 2.0)
   jquery-rails
+  launchy
+  letter_opener
   pg
   rails (= 4.2.4)
   rspec-rails
@@ -187,6 +240,7 @@ DEPENDENCIES
   shoulda-matchers
   slim-rails
   spring
+  trix_on_rails!
   turbolinks
   uglifier (>= 1.3.0)
   web-console (~> 2.0)

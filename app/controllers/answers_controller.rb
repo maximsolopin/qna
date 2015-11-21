@@ -1,14 +1,8 @@
 class AnswersController < ApplicationController
-  before_action :set_answer, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, except: [:index, :show]
   before_action :set_question, only: [:new, :create]
-
-  def index
-    @answers = Answer.all
-  end
-
-  def show
-
-  end
+  before_action :set_answer, only: [:edit, :destroy, :update]
+  before_action :check_author, only: [:destroy, :update]
 
   def new
     @answer = Answer.new
@@ -18,10 +12,12 @@ class AnswersController < ApplicationController
   end
 
   def create
-    @answer = @question.answers.new(answer_params)
+    redirect_to @answer.question if current_user.nil?
+
+    @answer = @question.answers.new(answer_params.merge({ user: current_user }))
 
     if @answer.save
-      redirect_to @answer
+      redirect_to @question
     else
       render :new
     end
@@ -29,7 +25,8 @@ class AnswersController < ApplicationController
 
   def update
     if @answer.update(answer_params)
-      redirect_to @answer
+      flash[:notice] = 'Answer updated'
+      redirect_to @answer.question
     else
       render :edit
     end
@@ -37,7 +34,8 @@ class AnswersController < ApplicationController
 
   def destroy
     @answer.destroy
-    redirect_to question_answers_path(@answer.question)
+    flash[:notice] = 'Answer deleted'
+    redirect_to @answer.question
   end
 
   private
@@ -52,5 +50,12 @@ class AnswersController < ApplicationController
 
   def answer_params
     params.require(:answer).permit(:body)
+  end
+
+  def check_author
+    if @answer.user.id != current_user.id
+      flash[:alert] = 'Permision denied'
+      redirect_to @answer.question
+    end
   end
 end

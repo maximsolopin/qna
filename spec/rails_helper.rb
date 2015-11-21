@@ -21,7 +21,7 @@ require 'shoulda/matchers'
 # directory. Alternatively, in the individual `*_spec.rb` files, manually
 # require only the support files necessary.
 #
-# Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
+Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
 # Checks for pending migrations before tests are run.
 # If you are not using ActiveRecord, you can remove this line.
@@ -29,6 +29,9 @@ ActiveRecord::Migration.maintain_test_schema!
 
 RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
+  config.include Devise::TestHelpers, type: :controller
+  config.extend ControllerMacros, type: :controller
+  config.include AcceptanceController, type: :feature
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
@@ -57,5 +60,11 @@ Shoulda::Matchers.configure do |config|
   config.integrate do |with|
     with.test_framework :rspec
     with.library :rails
+  end
+end
+
+RSpec::Matchers::define :have_link_or_button do |text|
+  match do |page|
+    Capybara.string(page.body).has_selector?(:link_or_button, text: text)
   end
 end
