@@ -1,2 +1,4 @@
-$('.answers').html('<%= j render 'questions/answers' %>');
-$('#answer_body').val('');
+<% if @answer.valid? %>
+  $('.answers').append('<%= j render 'answer', answer: @answer %>');
+  $('#answer_body').val('');
+<% end %>
