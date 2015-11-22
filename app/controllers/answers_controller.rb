@@ -12,15 +12,7 @@ class AnswersController < ApplicationController
   end
 
   def create
-    redirect_to @answer.question if current_user.nil?
-
-    @answer = @question.answers.new(answer_params.merge({ user: current_user }))
-
-    if @answer.save
-      redirect_to @question
-    else
-      render :new
-    end
+    @answer = @question.answers.create(answer_params.merge({ user: current_user }))
   end
 
   def update

@@ -35,29 +35,30 @@ describe AnswersController do
 
   describe 'POST #create' do
     context 'with valid attributes' do
-      before { post :create, answer: attributes_for(:answer), question_id: question }
+      before { post :create, answer: attributes_for(:answer), question_id: question, format: :js }
 
       it 'saves the new answer in the database' do
-        expect { post :create, answer: attributes_for(:answer), question_id: question }.to change(Answer, :count).by(1)
+        expect { post :create, answer: attributes_for(:answer), question_id: question, format: :js }.to change(Answer, :count).by(1)
       end
 
       it 'answer should be added to question' do
-        expect { post :create, answer: attributes_for(:answer), question_id: question }.to change(question.answers, :count).by(1)
+        expect { post :create, answer: attributes_for(:answer), question_id: question, format: :js }.to change(question.answers, :count).by(1)
       end
 
-      it 'redirects to question show view' do
-        expect(response).to redirect_to question_path(question)
+      it 'render create template' do
+        post :create, answer: attributes_for(:answer), question_id: question, format: :js
+        expect(response).to render_template :create
       end
     end
 
     context 'with invalid attributes' do
       it 'does not save the answer in the database' do
-        expect { post :create, answer: attributes_for(:invalid_answer), question_id: question }.to_not change(Answer, :count)
+        expect { post :create, answer: attributes_for(:invalid_answer), question_id: question, format: :js }.to_not change(Answer, :count)
       end
 
-      it 're-renders new view' do
-        post :create, answer: attributes_for(:invalid_answer), question_id: question
-        expect(response).to render_template :new
+      it 'render create template' do
+        post :create, answer: attributes_for(:invalid_answer), question_id: question, format: :js
+        expect(response).to render_template :create
       end
     end
   end

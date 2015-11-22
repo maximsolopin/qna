@@ -1,0 +1,4 @@
+<% if @answer.valid? %>
+  $('.answers').append('<%= j render @answer %>');
+  $('#answer_body').val('');
+<% end %>

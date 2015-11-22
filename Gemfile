@@ -45,6 +45,9 @@ gem "autoprefixer-rails"
 
 gem 'trix_on_rails',  :git => 'https://github.com/l-plan/trix_on_rails.git'
 
+gem 'selenium-webdriver'
+gem 'database_cleaner'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
