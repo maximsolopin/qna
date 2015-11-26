@@ -26,17 +26,17 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 group :test, :development do
   gem 'rspec-rails'
   gem 'factory_girl_rails'
+  gem 'capybara'
+  gem 'launchy'
+  gem 'database_cleaner'
+  gem 'capybara-webkit'
 end
 
 group :test do
   gem 'shoulda-matchers', require: false
-  gem 'capybara'
-  gem 'launchy'
-
 end
 
 gem 'devise'
-
 gem 'slim-rails'
 gem 'bootstrap-sass', '~> 3.3.5'
 gem 'bootstrap_helper'
@@ -44,9 +44,6 @@ gem 'font-awesome-sass'
 gem "autoprefixer-rails"
 
 gem 'trix_on_rails',  :git => 'https://github.com/l-plan/trix_on_rails.git'
-
-gem 'selenium-webdriver'
-gem 'database_cleaner'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
