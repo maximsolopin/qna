@@ -22,6 +22,16 @@ feature 'Create answer', %q{
     end
   end
 
+  scenario 'Authencticated user try to create answer', js: true do
+    sign_in(user)
+    visit question_path question
+    expect(current_path).to eq question_path(question)
+
+    click_on 'Create'
+
+    expect(page).to have_content "Body can't be blank"
+  end
+
   scenario 'Non-authencticated user ties create answer', js: true do
     visit question_path question
     expect(current_path).to eq question_path(question)
