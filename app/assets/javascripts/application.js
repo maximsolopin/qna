@@ -15,7 +15,6 @@
 //= require turbolinks
 //= require bootstrap-sprockets
 //= require_tree .
-//= require trix
 
 $(document).ready(function() {
   $('pre').each(function(i, block) {

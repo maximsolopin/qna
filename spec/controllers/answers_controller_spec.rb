@@ -66,30 +66,35 @@ describe AnswersController do
   describe 'PATCH #update' do
     context 'valid attributes' do
       it 'assigns the requested answer to @answer' do
-        patch :update, id: answer, answer: attributes_for(:answer), question_id: question
+        patch :update, id: answer, answer: attributes_for(:answer), question_id: question, format: :js
         expect(assigns(:answer)).to eq answer
       end
 
+      it 'assigns the question' do
+        patch :update, id: answer, answer: attributes_for(:answer), question_id: question, format: :js
+        expect(assigns(:question)).to eq question
+      end
+
       it 'change answer attributes' do
-        patch :update, id: answer, answer: { body: 'new body' }, question_id: question
+        patch :update, id: answer, answer: { body: 'new body' }, question_id: question, format: :js
         answer.reload
         expect(answer.body).to eq 'new body'
       end
 
       it 'change not yours answer attributes' do
-        patch :update, id: answer, answer: { body: 'new body' }, question_id: question
+        patch :update, id: answer, answer: { body: 'new body' }, question_id: question, format: :js
         answer.reload
         expect(answer.body).to eq 'new body'
       end
 
-      it 'redirects to the updated answer' do
-        patch :update, id: answer, answer: attributes_for(:answer), question_id: question
-        expect(response).to redirect_to question
+      it 'render update template' do
+        patch :update, id: answer, answer: attributes_for(:answer), question_id: question, format: :js
+        expect(response).to render_template :update
       end
     end
 
     context 'invalid attributes' do
-      before { patch :update, id: answer, answer: { body: nil }, question_id: question }
+      before { patch :update, id: answer, answer: { body: nil }, question_id: question, format: :js }
 
       it 'does not change answer attributes' do
         answer.reload
@@ -102,7 +107,7 @@ describe AnswersController do
     end
 
     context 'different user' do
-      before { patch :update, id: answer_second, answer: attributes_for(:answer), question_id: question }
+      before { patch :update, id: answer_second, answer: attributes_for(:answer), question_id: question, format: :js }
 
       it 'does not change answer attributes' do
         answer.reload
