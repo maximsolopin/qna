@@ -6,6 +6,7 @@ describe AnswersController do
   let(:question) { create(:question, user: user) }
   let(:answer) { create(:answer, question: question, user: @user) }
   let(:answer_second) { create(:answer, question: question, user: user_second) }
+  let(:answer_third) { create(:answer, question: question, user: @user) }
 
   sign_in_user
 
@@ -113,4 +114,29 @@ describe AnswersController do
       end
     end
   end
+  
+  describe 'PATCH #set_best' do
+    before { patch :set_best, question_id: question, id: answer, format: :js  }
+
+    it 'assigns answer to @answer' do
+      expect(assigns(:answer)).to eq answer
+    end
+
+    it 'answer should be the best' do
+      answer.reload
+      expect(answer.best).to eq true
+    end
+
+    it 'the best answer should be one' do
+      patch :set_best, id: answer_third, question_id: question, format: :js
+      answer_third.reload
+
+      expect(answer_third.best).to eq true
+      expect(answer.best).to eq false
+    end
+
+    it 'render set_best template' do
+      expect(response).to render_template :set_best
+    end
+	end
 end

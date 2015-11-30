@@ -1,6 +1,6 @@
 - if answer.id
-  div id="answer-id-#{answer.id}"
-    p= answer.body
+  div id="answer-id-#{answer.id}" class=(answer.best? ? 'best-answer' : '')
+    p = answer.body
     - if user_signed_in? && answer.user_id == current_user.id
       p = link_to 'Edit answer', '', class: 'edit-answer-link', data: { answer_id: answer.id }
       p
@@ -9,3 +9,5 @@
           = f.text_area :body
           = f.submit 'Save answer'
       p = link_to 'Delete answer', answer, remote: true, method: :delete, data: { confirm: 'Are you sure?' }
+      - if !answer.best?
+        p = link_to 'Best answer', set_best_answer_path(answer), remote: true, method: :patch

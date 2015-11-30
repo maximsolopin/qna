@@ -1,8 +1,8 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
   before_action :set_question, only: [:new, :create]
-  before_action :set_answer, only: [:edit, :destroy, :update]
-  before_action :check_author, only: [:destroy, :update]
+  before_action :set_answer, only: [:edit, :destroy, :update, :set_best]
+  before_action :check_author, only: [:destroy, :update, :set_best]
 
   def new
     @answer = Answer.new
@@ -21,6 +21,11 @@ class AnswersController < ApplicationController
 
   def destroy
     @answer.destroy
+  end
+
+  def set_best
+    @answer.set_best
+    @question = Question.find(@answer.question_id)
   end
 
   private
