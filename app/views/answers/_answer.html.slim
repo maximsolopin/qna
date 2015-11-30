@@ -8,4 +8,4 @@
           = f.label :body, 'Answer'
           = f.text_area :body
           = f.submit 'Save answer'
-      p = link_to 'Delete answer', answer, method: :delete
+      p = link_to 'Delete answer', answer, remote: true, method: :delete, data: { confirm: 'Are you sure?' }

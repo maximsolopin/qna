@@ -17,13 +17,10 @@ class AnswersController < ApplicationController
 
   def update
     @answer.update(answer_params)
-    flash[:notice] = 'Answer updated'
   end
 
   def destroy
     @answer.destroy
-    flash[:notice] = 'Answer deleted'
-    redirect_to @answer.question
   end
 
   private
