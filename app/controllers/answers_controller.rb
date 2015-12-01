@@ -1,8 +1,8 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
   before_action :set_question, only: [:new, :create]
-  before_action :set_answer, only: [:edit, :destroy, :update]
-  before_action :check_author, only: [:destroy, :update]
+  before_action :set_answer, only: [:edit, :destroy, :update, :set_best]
+  before_action :check_author, only: [:destroy, :update, :set_best]
 
   def new
     @answer = Answer.new
@@ -16,18 +16,16 @@ class AnswersController < ApplicationController
   end
 
   def update
-    if @answer.update(answer_params)
-      flash[:notice] = 'Answer updated'
-      redirect_to @answer.question
-    else
-      render :edit
-    end
+    @answer.update(answer_params)
   end
 
   def destroy
     @answer.destroy
-    flash[:notice] = 'Answer deleted'
-    redirect_to @answer.question
+  end
+
+  def set_best
+    @answer.set_best
+    @question = @answer.question
   end
 
   private

@@ -6,32 +6,9 @@ describe AnswersController do
   let(:question) { create(:question, user: user) }
   let(:answer) { create(:answer, question: question, user: @user) }
   let(:answer_second) { create(:answer, question: question, user: user_second) }
+  let(:answer_third) { create(:answer, question: question, user: @user) }
 
   sign_in_user
-
-  describe 'GET #new' do
-    before { get :new, question_id: question }
-
-    it 'assigns a new Answer to @answer' do
-      expect(assigns(:answer)).to be_a_new(Answer)
-    end
-
-    it 'renders new view' do
-      expect(response).to render_template :new
-    end
-  end
-
-  describe 'GET #edit' do
-    before { get :edit, id: answer, question_id: question }
-
-    it 'assigns the requested answer to @answer' do
-      expect(assigns(:answer)).to eq answer
-    end
-
-    it 'renders edit view' do
-      expect(response).to render_template :edit
-    end
-  end
 
   describe 'POST #create' do
     context 'with valid attributes' do
@@ -66,51 +43,47 @@ describe AnswersController do
   describe 'PATCH #update' do
     context 'valid attributes' do
       it 'assigns the requested answer to @answer' do
-        patch :update, id: answer, answer: attributes_for(:answer), question_id: question
+        patch :update, id: answer, answer: attributes_for(:answer), question_id: question, format: :js
         expect(assigns(:answer)).to eq answer
       end
 
       it 'change answer attributes' do
-        patch :update, id: answer, answer: { body: 'new body' }, question_id: question
+        patch :update, id: answer, answer: { body: 'new body' }, question_id: question, format: :js
         answer.reload
         expect(answer.body).to eq 'new body'
       end
 
       it 'change not yours answer attributes' do
-        patch :update, id: answer, answer: { body: 'new body' }, question_id: question
+        patch :update, id: answer_second, answer: { body: 'new body' }, question_id: question, format: :js
         answer.reload
-        expect(answer.body).to eq 'new body'
+        expect(answer.body).to_not eq 'new body'
       end
 
-      it 'redirects to the updated answer' do
-        patch :update, id: answer, answer: attributes_for(:answer), question_id: question
-        expect(response).to redirect_to question
+      it 'render update template' do
+        patch :update, id: answer, answer: attributes_for(:answer), question_id: question, format: :js
+        expect(response).to render_template :update
       end
     end
 
     context 'invalid attributes' do
-      before { patch :update, id: answer, answer: { body: nil }, question_id: question }
+      before { patch :update, id: answer, answer: { body: nil }, question_id: question, format: :js }
 
       it 'does not change answer attributes' do
         answer.reload
         expect(answer.body).to eq answer.body
       end
 
-      it 're-renders edit view' do
-        expect(response).to render_template :edit
+      it 'render update template' do
+        expect(response).to render_template :update
       end
     end
 
     context 'different user' do
-      before { patch :update, id: answer_second, answer: attributes_for(:answer), question_id: question }
+      before { patch :update, id: answer_second, answer: attributes_for(:answer), question_id: question, format: :js }
 
       it 'does not change answer attributes' do
         answer.reload
         expect(answer.body).to eq answer.body
-      end
-
-      it 'redirects to question show view' do
-        expect(response).to redirect_to question_path(question)
       end
     end
   end
@@ -120,12 +93,12 @@ describe AnswersController do
       before { answer }
 
       it 'deletes answer' do
-        expect { delete :destroy, id: answer, question_id: question }.to change(Answer, :count).by(-1)
+        expect { delete :destroy, id: answer, question_id: question, format: :js }.to change(Answer, :count).by(-1)
       end
 
-      it 'redirect to index view' do
-        delete :destroy, id: answer, question_id: question
-        expect(response).to redirect_to question
+      it 'render template destroy' do
+        delete :destroy, id: answer, question_id: question, format: :js
+        expect(response).to render_template :destroy
       end
     end
 
@@ -133,7 +106,7 @@ describe AnswersController do
       before { answer_second }
 
       it 'deletes answer' do
-        expect { delete :destroy, id: answer_second, question_id: question }.to change(Answer, :count).by(0)
+        expect { delete :destroy, id: answer_second, question_id: question, format: :js }.to change(Answer, :count).by(0)
       end
 
       it 'has a 200 status code' do
@@ -141,4 +114,24 @@ describe AnswersController do
       end
     end
   end
+  
+  describe 'PATCH #set_best' do
+    before { patch :set_best, question_id: question, id: answer, format: :js  }
+
+    it 'assigns answer to @answer' do
+      expect(assigns(:answer)).to eq answer
+    end
+    
+    it 'the best answer should be one' do
+      patch :set_best, id: answer_third, question_id: question, format: :js
+      answer_third.reload
+
+      expect(answer_third.best).to eq true
+      expect(answer.best).to eq false
+    end
+
+    it 'render set_best template' do
+      expect(response).to render_template :set_best
+    end
+	end
 end

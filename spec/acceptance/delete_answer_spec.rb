@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative 'acceptance_helper'
 
 feature 'Delete answer', %q{
   In order to be able to delete answer
@@ -12,31 +12,30 @@ feature 'Delete answer', %q{
   given!(:question) { create(:question, user: first_user) }
   given!(:answer) { create(:answer, user: first_user, question: question) }
 
-  scenario 'User can delete your answer' do
+  scenario 'User can delete your answer', js: true do
     sign_in(first_user)
     visit question_path(question)
 
     click_on "Delete answer"
 
     expect(page).to_not have_content "MyStringAnswer"
-    expect(page).to have_content "Answer deleted"
   end
 
-  scenario 'Different user can\'t delete answer' do
+  scenario 'Different user can\'t delete answer', js: true do
     sign_in(second_user)
     visit question_path(question)
 
     expect(page).not_to have_selector("Delete answer")
   end
 
-  scenario 'Different user can\'t delete answer' do
+  scenario 'Different user can\'t delete answer', js: true do
     sign_in(second_user)
     visit question_path(question)
 
     expect(page).not_to have_selector("Delete answer")
   end
 
-  scenario 'Non-authencticated user ties delete answer' do
+  scenario 'Non-authencticated user ties delete answer', js: true do
     visit question_path(question)
     expect(page).not_to have_selector("Delete answer")
   end
