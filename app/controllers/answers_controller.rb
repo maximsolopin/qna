@@ -25,7 +25,7 @@ class AnswersController < ApplicationController
 
   def set_best
     @answer.set_best
-    @question = Question.find(@answer.question_id)
+    @question = @answer.question
   end
 
   private

@@ -54,9 +54,9 @@ describe AnswersController do
       end
 
       it 'change not yours answer attributes' do
-        patch :update, id: answer, answer: { body: 'new body' }, question_id: question, format: :js
+        patch :update, id: answer_second, answer: { body: 'new body' }, question_id: question, format: :js
         answer.reload
-        expect(answer.body).to eq 'new body'
+        expect(answer.body).to_not eq 'new body'
       end
 
       it 'render update template' do
@@ -121,12 +121,7 @@ describe AnswersController do
     it 'assigns answer to @answer' do
       expect(assigns(:answer)).to eq answer
     end
-
-    it 'answer should be the best' do
-      answer.reload
-      expect(answer.best).to eq true
-    end
-
+    
     it 'the best answer should be one' do
       patch :set_best, id: answer_third, question_id: question, format: :js
       answer_third.reload

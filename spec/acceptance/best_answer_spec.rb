@@ -43,9 +43,6 @@ feature 'Set best answer', %q{
 
       within ".answers #answer-id-#{answer.id}" do
         click_on 'Best answer'
-      end
-
-      within ".answers #answer-id-#{answer.id}" do
         expect(page).to_not have_link 'Best answer'
       end
 
