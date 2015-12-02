@@ -11,8 +11,11 @@ div.header
       = f.label :body
       = f.text_area :body
       br
-    div.add_question
-      trix-editor
+      p Attachments:
+      p
+        = f.fields_for :attachments do |a|
+          = a.label :file
+          = a.file_field :file
     div.add_question
       = f.submit 'Create'
 
