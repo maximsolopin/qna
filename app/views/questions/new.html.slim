@@ -13,9 +13,6 @@ div.header
       br
       p Attachments:
       p
-        = f.fields_for :attachments do |a|
-          = a.label :file
-          = a.file_field :file
+        = render 'attachments/attachment_links', f: f
     div.add_question
       = f.submit 'Create'
-
