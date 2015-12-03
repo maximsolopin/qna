@@ -1,0 +1,5 @@
+- if @answer.errors.any?
+  div.errors
+    ul
+      - @answer.errors.full_messages.each do |msg|
+        li= msg

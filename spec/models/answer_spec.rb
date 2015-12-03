@@ -12,6 +12,9 @@ RSpec.describe Answer, type: :model do
 
   it { should belong_to(:user) }
   it { should belong_to(:question) }
+  it { should have_many(:attachments).dependent(:destroy) }
+
+  it { should accept_nested_attributes_for :attachments }
 
   describe 'best_answer' do
     it 'should change best attribute' do

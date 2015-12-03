@@ -1,19 +1,25 @@
-.container
-  .header
-  .content
-    .question-header
-      h1 = @question.title
-    .question-content
-      .question
+.container.question
+  .panel.panel-default
+    .panel-body
+      .center.text-title
+        h3 = @question.title
+      div.text
         = @question.body
-      .answers
-        = render @question.answers
-      = form_for [@question, @answer], remote: true do |f|
-        = f.label :body, 'Your answer'
-        .answer-errors
-        = f.text_area :body
-        - if user_signed_in?
-          = f.submit 'Create'
+        div.attachments
+          - if @question.attachments.present?
+          p Attachments
+          ul
+            = render @question.attachments
+      - if user_signed_in? && @question.user.id == current_user.id
+      .text-right
+        = link_to 'Delete question', @question, method: :delete, class: 'btn btn-danger'
+  .container.answers
+    = render @question.answers
+    = form_for [@question, @answer], remote: true do |f|
+      = f.label :body, 'Your answer'
+      .answer-errors
+      = f.text_area :body, class: 'form-control', rows: '3'
+      = render 'attachments/attachment_links', f: f
+      - if user_signed_in?
+        .text-center = f.submit 'Create', class: 'btn btn-primary'
 
-- if user_signed_in? && @question.user.id == current_user.id
-  p = link_to 'Delete question', @question, method: :delete

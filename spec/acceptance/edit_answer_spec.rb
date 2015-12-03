@@ -13,7 +13,7 @@ feature 'Answer editing', %q{
   scenario 'Unauthenticated user try to edit question' do
     visit question_path(question)
 
-    expect(page).to_not have_link 'Edit answer'
+    expect(page).to_not have_css 'i.fa.fa-pencil'
   end
 
   scenario "Authenticated user try to edit other user's question" do
@@ -21,7 +21,7 @@ feature 'Answer editing', %q{
     visit question_path(question)
 
     within '.answers' do
-      expect(page).to_not have_link 'Edit answer'
+      expect(page).to_not have_css 'i.fa.fa-pencil'
     end
   end
 
@@ -35,31 +35,37 @@ feature 'Answer editing', %q{
 
     scenario 'sees link to Edit answer' do
       within '.answers' do
-        expect(page).to have_link 'Edit answer'
+        expect(page).to have_css 'i.fa.fa-pencil'
       end
     end
 
     scenario 'try to edit his answer', js: true do
-      within '.answers' do
-        click_on 'Edit answer'
-        fill_in 'Answer', with: 'edited answer'
-        click_on 'Save answer'
+      within ".answers #answer-id-#{answer.id}" do
+        find(:css, 'i.fa.fa-pencil').click
+      end
 
+      within "#edit-answer-#{answer.id}" do
+        fill_in 'answer_body', with: 'edited answer'
+        find(:css, 'i.fa.fa-floppy-o').click
+      end
+
+      within ".answers #answer-id-#{answer.id}" do
         expect(page).to_not have_content answer.body
         expect(page).to have_content 'edited answer'
         expect(page).to_not have_selector 'textarea'
-
       end
     end
 
     scenario 'try to edit his answer with invalid attributes', js: true do
-      click_on 'Edit answer'
-      within '.answers' do
-        fill_in 'Answer', with: ''
-        click_on 'Save answer'
-
-        expect(page).to have_content answer.body
+      within ".answers #answer-id-#{answer.id}" do
+        find(:css, 'i.fa.fa-pencil').click
       end
+
+      within "#edit-answer-#{answer.id}" do
+        fill_in 'answer_body', with: ''
+        find(:css, 'i.fa.fa-floppy-o').click
+      end
+
       expect(page).to have_content "Body can't be blank"
     end
 

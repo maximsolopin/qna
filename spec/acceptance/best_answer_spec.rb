@@ -16,7 +16,7 @@ feature 'Set best answer', %q{
     visit question_path(question)
 
     within '.answers' do
-      expect(page).to_not have_link 'Best answer'
+      expect(page).to_not have_css 'i.fa.fa-thumbs-o-up'
     end
   end
 
@@ -24,7 +24,7 @@ feature 'Set best answer', %q{
     sign_in second_user
     visit question_path(question)
 
-    expect(page).to_not have_link 'Best answer'
+    expect(page).to_not have_css 'i.fa.fa-thumbs-o-up'
   end
 
   describe 'Authenticated user', js: true  do
@@ -35,41 +35,41 @@ feature 'Set best answer', %q{
 
     scenario 'sees link to Best answer', js: true do
       within '.answers' do
-        expect(page).to have_link 'Best answer'
+        expect(page).to have_css 'i.fa.fa-thumbs-o-up'
       end
     end
 
     scenario 'try to set best answer to his question', js: true do
 
       within ".answers #answer-id-#{answer.id}" do
-        click_on 'Best answer'
-        expect(page).to_not have_link 'Best answer'
+        find(:css, 'i.fa.fa-thumbs-o-up').click
+        expect(page).to_not have_css 'i.fa.fa-thumbs-o-up'
       end
 
       within ".answers #answer-id-#{answer_second.id}" do
-        click_on 'Best answer'
+        find(:css, 'i.fa.fa-thumbs-o-up').click
       end
 
       within ".answers #answer-id-#{answer.id}" do
-        expect(page).to have_link 'Best answer'
+        expect(page).to have_css 'i.fa.fa-thumbs-o-up'
       end
     end
 
     scenario 'best answer first on page', js: true do
 
       within ".answers #answer-id-#{answer.id}" do
-        click_on 'Best answer'
+        find(:css, 'i.fa.fa-thumbs-o-up').click
       end
 
-      within('.answers div:first-child') do
+      within('.answers .panel:first-child div:last-child p:first-child') do
         expect(page).to have_content answer.body
       end
 
       within ".answers #answer-id-#{answer_second.id}" do
-        click_on 'Best answer'
+        find(:css, 'i.fa.fa-thumbs-o-up').click
       end
 
-      within('.answers div:first-child') do
+      within('.answers .panel:first-child div:last-child p:first-child') do
         expect(page).to have_content answer_second.body
       end
     end

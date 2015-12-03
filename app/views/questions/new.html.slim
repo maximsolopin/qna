@@ -11,8 +11,8 @@ div.header
       = f.label :body
       = f.text_area :body
       br
-    div.add_question
-      trix-editor
+      p Attachments:
+      p
+        = render 'attachments/attachment_links', f: f
     div.add_question
       = f.submit 'Create'
-

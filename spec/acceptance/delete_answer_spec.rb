@@ -9,14 +9,14 @@ feature 'Delete answer', %q{
   given(:first_user) { create(:user) }
   given(:second_user) { create(:user) }
 
-  given!(:question) { create(:question, user: first_user) }
-  given!(:answer) { create(:answer, user: first_user, question: question) }
+  given(:question) { create(:question) }
+  given!(:answer) { create(:answer, question: question, user: first_user) }
 
   scenario 'User can delete your answer', js: true do
     sign_in(first_user)
     visit question_path(question)
 
-    click_on "Delete answer"
+    find(:css, 'i.fa.fa-pencil').click
 
     expect(page).to_not have_content "MyStringAnswer"
   end

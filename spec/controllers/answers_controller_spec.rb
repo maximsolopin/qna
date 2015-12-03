@@ -114,7 +114,7 @@ describe AnswersController do
       end
     end
   end
-  
+
   describe 'PATCH #set_best' do
     before { patch :set_best, question_id: question, id: answer, format: :js  }
 
