@@ -16,8 +16,8 @@ feature 'Add files to question', %q{
   scenario 'User adds file when asks question', js: true do
     fill_in 'Title', with: 'Test question'
     fill_in 'Body', with: 'Test body'
-    click_on 'Add file'
-    attach_file 'File', "#{Rails.root}/spec/spec_helper.rb"
+    find(:css, 'i.fa.fa-plus').click
+    all("input[type='file']").first.set("#{Rails.root}/spec/spec_helper.rb")
 
     click_on 'Create'
 
@@ -28,8 +28,8 @@ feature 'Add files to question', %q{
     fill_in 'Title', with: 'Test question'
     fill_in 'Body', with: 'Test body'
 
-    click_on 'Add file'
-    click_on 'Add file'
+    find(:css, 'i.fa.fa-plus').click
+    find(:css, 'i.fa.fa-plus').click
 
     all("input[type='file']").first.set("#{Rails.root}/spec/spec_helper.rb")
     all("input[type='file']").last.set("#{Rails.root}/spec/rails_helper.rb")

@@ -1,0 +1,9 @@
+div.panel.panel-primary
+  div.panel-heading
+    = answer.user.display_name
+    .pull-right
+      = f.button type: 'submit', class: 'btn btn-primary' do
+        i.fa.fa-floppy-o
+  div.panel-body
+    p = f.text_area :body, class: 'form-control', rows: '8'
+    = render 'attachments/attachment_links', f: f

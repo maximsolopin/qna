@@ -17,10 +17,10 @@ feature 'Remove files from answer', %q{
     visit question_path(question)
 
     within '.answers' do
-      click_on 'Edit'
+      find(:css, 'i.fa.fa-pencil').click
 
       check "remove_attachment_#{attachment.id}"
-      click_on 'Save'
+      find(:css, 'i.fa.fa-floppy-o').click
     end
 
     expect(page).to_not have_content attachment.file.identifier
@@ -30,7 +30,7 @@ feature 'Remove files from answer', %q{
     sign_in(user_second)
     visit question_path(question)
 
-    expect(page).to_not have_link 'Edit'
+    expect(page).to_not have_css 'i.fa.fa-pencil'
     expect(page).to_not have_selector "remove_attachment_#{attachment.id}"
   end
 end 

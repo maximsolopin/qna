@@ -4,5 +4,7 @@
   => attach.label :_destroy, 'Remove'
   => attach.check_box :_destroy, id: "remove_attachment_#{attachment.id}"
 .links
-  = link_to_add_association 'Add file', f, :attachments,
-    partial: 'attachments/attachment_fields'
+  div.btn.btn-success
+    = link_to_add_association f, :attachments, partial: 'attachments/attachment_fields' do
+      i.fa.fa-plus
+        |  Add file...

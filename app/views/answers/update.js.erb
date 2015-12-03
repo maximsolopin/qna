@@ -1,7 +1,7 @@
 <% if @answer.errors.present? %>
-    <% @answer.errors.full_messages.each do |message| %>
-        $('.answer-errors').html('<%= j message %>');
-    <% end %>
+    $('<%= j render 'answers/errors' %>').insertBefore($('form#edit-answer-<%= @answer.id %>'));
 <% else %>
-    $('.answers div#answer-id-<%= @answer.id %>').html('<%= j render @answer %>');
+    $('.answers div.errors').remove();
+    $('.answers form#edit-answer-<%= @answer.id %>').remove();
+    $('.answers div#answer-id-<%= @answer.id %>').replaceWith('<%= j render @answer %>');
 <% end %>

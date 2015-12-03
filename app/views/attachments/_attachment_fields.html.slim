@@ -1,4 +1,6 @@
 .nested-fields
-  = f.label :file
-  = f.file_field :file
-  = link_to_remove_association 'Remove file', f
+  span.btn.btn-primary
+    = f.file_field :file
+  span.btn.btn-danger
+    = link_to_remove_association f do
+      i.fa.fa-trash-o.fa-lg
