@@ -4,6 +4,8 @@ class AnswersController < ApplicationController
   before_action :set_answer, only: [:edit, :destroy, :update, :set_best]
   before_action :check_author, only: [:destroy, :update, :set_best]
 
+  include Voted
+  
   def new
     @answer = Answer.new
   end

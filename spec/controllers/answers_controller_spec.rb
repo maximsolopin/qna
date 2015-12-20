@@ -133,5 +133,62 @@ describe AnswersController do
     it 'render set_best template' do
       expect(response).to render_template :set_best
     end
-	end
+  end
+
+  describe 'patch #vote_up' do
+    let(:answer) { create(:answer, question: question, user: @user) }
+    let(:answer_second) { create(:answer, question: question, user: user_second) }
+    
+    it 'can vote for answer' do
+       expect { patch :vote_up, question_id: question, id: answer_second, format: :json }.to change(answer_second.votes, :count)
+       expect(answer_second.votes.rating).to eq 1
+    end
+
+    it 'vote twice for answer' do
+       patch :vote_up, question_id: question, id: answer_second, format: :json
+       patch :vote_up, question_id: question, id: answer_second, format: :json
+
+       expect(answer_second.votes.rating).to eq 1
+    end
+
+    it 'vote for yours answer' do
+       expect { patch :vote_up, question_id: question, id: answer, format: :json }.to_not change(answer.votes, :count)
+    end
+  end
+
+  describe 'patch #vote_down' do
+    let(:answer) { create(:answer, question: question, user: @user) }
+    let(:answer_second) { create(:answer, question: question, user: user_second) }
+    
+    it 'can vote for answer' do
+       expect { patch :vote_down, question_id: question, id: answer_second, format: :json }.to change(answer_second.votes, :count)
+       expect(answer_second.votes.rating).to eq -1
+    end
+
+    it 'vote twice for answer' do
+       patch :vote_down, question_id: question, id: answer_second, format: :json
+       patch :vote_down, question_id: question, id: answer_second, format: :json
+
+       expect(answer_second.votes.rating).to eq -1
+    end
+
+    it 'vote for yours answer' do
+       expect { patch :vote_down, question_id: question, id: answer, format: :json }.to_not change(answer.votes, :count)
+    end
+  end
+
+  describe 'patch #vote_reset' do
+    let(:answer) { create(:answer, question: question, user: @user) }
+    let(:answer_second) { create(:answer, question: question, user: user_second) }
+    
+    it 'can reset votes for answer' do
+       patch :vote_up, question_id: question, id: answer_second, format: :json
+       expect { patch :vote_reset, question_id: question, id: answer_second, format: :json }.to change(answer_second.votes, :count)
+       expect(answer_second.votes.rating).to eq 0
+    end
+
+    it 'cant reset without voted' do
+       expect { patch :vote_reset, question_id: question, id: answer_second, format: :json }.to_not change(answer_second.votes, :count)
+    end
+  end
 end

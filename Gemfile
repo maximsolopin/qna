@@ -46,6 +46,7 @@ gem 'trix_on_rails',  :git => 'https://github.com/l-plan/trix_on_rails.git'
 gem 'carrierwave'
 gem 'remotipart'
 gem 'cocoon'
+gem 'skim'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

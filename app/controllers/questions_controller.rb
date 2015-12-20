@@ -3,6 +3,8 @@ class QuestionsController < ApplicationController
   before_action :set_question, only: [:show, :edit, :update, :destroy]
   before_action :check_author, only: [:destroy, :update]
 
+  include Voted
+  
   def index
     @questions = Question.all
   end

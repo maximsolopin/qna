@@ -31,5 +31,6 @@ module Voted
     unless current_user.id == @votable.user_id
       @votable.send("vote_#{value}", current_user)
     end
+    render :vote
   end
 end

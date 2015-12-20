@@ -11,5 +11,7 @@
           = render answer.attachments
       .text-right
         small #{time_ago_in_words(answer.created_at)} ago
+      .answer-votes id="#{dom_id(answer)}"
+        = render partial: 'common/votes', locals: { object: answer }
   = form_for answer, remote: true, html: { id: "edit-answer-#{answer.id}" } do |f|
     = render 'answers/answer_edit', answer: answer, f: f
