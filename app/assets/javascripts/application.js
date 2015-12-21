@@ -15,7 +15,9 @@
 //= require jquery.remotipart
 //= require turbolinks
 //= require bootstrap-sprockets
+//= require skim
 //= require cocoon
+//= requir_tree ./templates
 //= require_tree .
 
 $(document).ready(function() {

@@ -151,6 +151,47 @@ describe QuestionsController do
       delete :destroy, id: question
       expect(response).to redirect_to questions_path
     end
+  end
 
+  describe 'patch #vote_up' do
+    let(:question) { create(:question, user: @user) }
+    let(:question_second) { create(:question, user: user_second) }
+    
+    it 'can vote for answer' do
+       expect { patch :vote_up, id: question_second, format: :json }.to change(question_second.votes, :count)
+       expect(question_second.votes.rating).to eq 1
+       expect(response).to render_template :vote
+    end
+
+    it 'vote for yours answer' do
+       expect { patch :vote_up, id: question, format: :json }.to_not change(question.votes, :count)
+    end
+  end
+
+  describe 'patch #vote_down' do
+    let(:question) { create(:question, user: @user) }
+    let(:question_second) { create(:question, user: user_second) }
+    
+    it 'can vote for answer' do
+       expect { patch :vote_down, id: question_second, format: :json }.to change(question_second.votes, :count)
+       expect(question_second.votes.rating).to eq -1
+       expect(response).to render_template :vote
+    end
+
+    it 'vote for yours answer' do
+       expect { patch :vote_down, id: question, format: :json }.to_not change(question.votes, :count)
+    end
+  end
+
+  describe 'patch #vote_reset' do
+    let(:question) { create(:question, user: @user) }
+    let(:question_second) { create(:question, user: user_second) }
+    
+    it 'can reset votes for answer' do
+       patch :vote_up, id: question_second, format: :json
+       expect { patch :vote_reset, id: question_second, format: :json }.to change(question_second.votes, :count)
+       expect(question_second.votes.rating).to eq 0
+       expect(response).to render_template :vote
+    end
   end
 end

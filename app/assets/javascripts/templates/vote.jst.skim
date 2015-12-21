@@ -1,0 +1,11 @@
+.row
+   .col-md-2
+     | Rating: #{@object.rating}
+.row
+ - if @object.user_voted
+   .col-md-1
+     a href=@object.vote_reset_url data-method="patch" data-remote="true" Reset
+ .col-md-1
+  a href=@object.vote_up_url data-method="patch" data-remote="true" Up
+ .col-md-1
+  a href=@object.vote_down_url data-method="patch" data-remote="true" Down
