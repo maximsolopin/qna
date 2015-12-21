@@ -18,7 +18,6 @@ module Votable
   end
 
   def user_voted?(user)
-    puts user.display_name
     puts votes.find_by(user: user) ? true : false
     votes.find_by(user: user) ? true : false
   end
@@ -26,7 +25,6 @@ module Votable
   private
 
   def set_vote(value, user)
-    puts user.display_name
     vote = votes.find_or_create_by(user: user)
     vote.set_vote(value)
   end
