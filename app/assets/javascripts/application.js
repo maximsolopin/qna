@@ -15,13 +15,8 @@
 //= require jquery.remotipart
 //= require turbolinks
 //= require bootstrap-sprockets
+//= require private_pub
 //= require skim
 //= require cocoon
 //= requir_tree ./templates
 //= require_tree .
-
-$(document).ready(function() {
-  $('pre').each(function(i, block) {
-    hljs.highlightBlock(block);
-  });
-});
