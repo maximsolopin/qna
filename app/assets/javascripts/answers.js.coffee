@@ -7,10 +7,11 @@ $ ->
     $('form#edit-answer-' + answer_id).show();
 
   $('.answer-votes').bind 'ajax:success', '.votes', (e, data, status, xhr) ->
-    answer = $.parseJSON(xhr.responseText)
-    $(".answer-votes#answer_#{answer.id}").html(JST["templates/vote"]({object: answer}))
+    answer = $.parseJSON(xhr.responseText);
+    $(".answer-votes#answer_#{answer.id}").html(JST["templates/vote"]({object: answer}));
 
-  question_id = $('.question').data('questionId')
+  question_id = $('.question').data('questionId');
   PrivatePub.subscribe "/answers/" + question_id, (data, channel) ->
-    answer = $.parseJSON(data['answer'])
-    $('.answers').append(JST['templates/answer']({answer: answer}))
+    answer = $.parseJSON(data['answer']);
+    $('.new_answer #answer_body').val('');
+    $('.answers').append(JST['templates/answer']({answer: answer}));
