@@ -5,7 +5,12 @@ $ ->
     answer_id = $(this).data('answerId');
     $('div#answer-id-' + answer_id).hide();
     $('form#edit-answer-' + answer_id).show();
-    
-  $('.answer-block').bind 'ajax:success', '.votes', (e, data, status, xhr) ->
-   answer = $.parseJSON(xhr.responseText)
-   $(".answer-votes#answer_#{answer.id}").html(JST["templates/vote"]({object: answer}))
+
+  $('.answer-votes').bind 'ajax:success', '.votes', (e, data, status, xhr) ->
+    answer = $.parseJSON(xhr.responseText)
+    $(".answer-votes#answer_#{answer.id}").html(JST["templates/vote"]({object: answer}))
+
+  question_id = $('.question').data('questionId')
+  PrivatePub.subscribe "/answers/" + question_id, (data, channel) ->
+    answer = $.parseJSON(data['answer'])
+    $('.answers').append(JST['templates/answer']({answer: answer}))

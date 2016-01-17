@@ -1,0 +1,43 @@
+- if @answer.is_best
+  div.panel.panel-primary.best-answer id="answer-id-#{@answer.id}"
+- else
+  div.panel.panel-primary id="answer-id-#{@answer.id}"
+    div.panel-heading
+      = @answer.display_name
+      - if @answer.answer_author
+        .pull-right
+          a.edit-answer-link href = @answer.answer_link data-answer-id = @answer.id
+            i.fa.fa-pencil
+          a href = @answer.answer_link data-remote="true" data-method="delete" data-confirm = 'Are you sure?'
+            i.fa.fa-times
+          a href = @answer.answer_link_set_best data-remote="true" data-method="patch"
+            i.fa.fa-thumbs-o-up
+    div.panel-body
+      p = @answer.body
+      - if @answer.attachments.length > 0
+        p Attachments
+        ul
+          - for attach in @answer.attachments
+            li.attach id = "attachment_#{attach.id}"
+              a href = attach.url
+                = attach.name
+      .text-right
+        small = @answer.created
+      .answer-votes id=@answer.dom_id
+  form.edit_answer id="edit-answer-#{@answer.id}" method="post" action="/answers/#{@answer.id}" data-remote="true"
+    input name="utf8" type="hidden" value="&#x2713;"
+    input type="hidden" name="_method" value="patch"
+    div.panel.panel-primary
+      div.panel-heading
+        = @answer.display_name
+        .pull-right
+          button.btn.btn-primary name="button" type="submit"
+            i.fa.fa-floppy-o
+      div.panel-body
+        p
+          textarea.form-control#answer_body rows="8" name="answer[body]" = @answer.body
+        div.links
+          div.btn.btn-success
+            a.add_fields data-association="attachment" data-association-insertion-template=@answer.insertion_template href="#"
+              i.fa.fa-plus
+                |  Add file...

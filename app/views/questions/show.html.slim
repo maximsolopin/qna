@@ -1,4 +1,4 @@
-.container.question.question-block
+.container.question.question-block data={question_id: "#{@question.id}"}
   .panel.panel-default
     .panel-body
       .center.text-title
@@ -17,11 +17,13 @@
         = render partial: 'common/votes', locals: { object: @question }
   .container.answers.answer-block
     = render @question.answers
-    = form_for [@question, @answer], remote: true do |f|
-      = f.label :body, 'Your answer'
-      .answer-errors
-      = f.text_area :body, class: 'form-control', rows: '3'
-      = render 'attachments/attachment_links', f: f
-      - if user_signed_in?
-        .text-center = f.submit 'Create', class: 'btn btn-primary'
+  = form_for [@question, @answer], remote: true do |f|
+    = f.label :body, 'Your answer'
+    .answer-errors
+    = f.text_area :body, class: 'form-control', rows: '3'
+    = render 'attachments/attachment_links', f: f
+    - if user_signed_in?
+      .text-center = f.submit 'Create', class: 'btn btn-primary'
+
+= subscribe_to "/answers/#{@question.id}"
 
