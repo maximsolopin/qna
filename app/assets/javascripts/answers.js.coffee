@@ -11,7 +11,12 @@ $ ->
     $(".answer-votes#answer_#{answer.id}").html(JST["templates/vote"]({object: answer}));
 
   question_id = $('.question').data('questionId');
-  PrivatePub.subscribe "/answers/" + question_id, (data, channel) ->
+  PrivatePub.subscribe "/questions/" + question_id + "/answers", (data, channel) ->
     answer = $.parseJSON(data['answer']);
     $('.new_answer #answer_body').val('');
     $('.answers').append(JST['templates/answer']({answer: answer}));
+
+  PrivatePub.subscribe "/questions/" + question_id + "/answers/comments", (data, channel) ->
+    comment = $.parseJSON(data['comment']);
+    $('.new_comment #comment_body').val('');
+    $(".comments-list#answer_#{comment.commentable_id}").append(JST['templates/comment']({comment: comment}));

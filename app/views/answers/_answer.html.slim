@@ -15,3 +15,7 @@
         = render partial: 'common/votes', locals: { object: answer }
   = form_for answer, remote: true, html: { id: "edit-answer-#{answer.id}" } do |f|
     = render 'answers/answer_edit', answer: answer, f: f
+  .comments-list id="#{dom_id(answer)}"
+    = render answer.comments
+  - if user_signed_in?
+    = render 'comments/form', commentable: answer

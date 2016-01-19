@@ -41,3 +41,14 @@
             a.add_fields data-association="attachment" data-association-insertion-template=@answer.insertion_template href="#"
               i.fa.fa-plus
                 |  Add file...
+  .comments-list id=@answer.dom_id
+    - if @answer.comments.length > 0
+      - for c in @answer.comments
+        li = c.body
+  - if @answer.user_is_signed
+    .add-comment data-commentable-id = @answer.commentable_id
+      form.new_comment id="new_comment" method="post" action="/answers/#{@answer.commentable_id}/comments" data-remote="true"
+        input name="utf8" type="hidden" value="&#x2713;"
+        textarea name="comment[body]" id="comment_body"
+        br
+          input type="submit" name="commit" value="Add comment"
