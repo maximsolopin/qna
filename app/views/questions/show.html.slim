@@ -1,4 +1,4 @@
-.container.question.question-block
+.container.question.question-block data={question_id: "#{@question.id}"}
   .panel.panel-default
     .panel-body
       .center.text-title
@@ -15,13 +15,20 @@
         = link_to 'Delete question', @question, method: :delete, class: 'btn btn-danger'
       .question-votes id="#{dom_id(@question)}"
         = render partial: 'common/votes', locals: { object: @question }
+  .comments-list id="#{dom_id(@question)}"
+    = render @question.comments
+  - if user_signed_in?
+    = render 'comments/form', commentable: @question
   .container.answers.answer-block
     = render @question.answers
-    = form_for [@question, @answer], remote: true do |f|
-      = f.label :body, 'Your answer'
-      .answer-errors
-      = f.text_area :body, class: 'form-control', rows: '3'
-      = render 'attachments/attachment_links', f: f
-      - if user_signed_in?
-        .text-center = f.submit 'Create', class: 'btn btn-primary'
+  = form_for [@question, @answer], remote: true do |f|
+    = f.label :body, 'Your answer'
+    .answer-errors
+    = f.text_area :body, class: 'form-control', rows: '3'
+    = render 'attachments/attachment_links', f: f
+    - if user_signed_in?
+      .text-center = f.submit 'Create', class: 'btn btn-primary'
 
+= subscribe_to "/questions/#{@question.id}/answers"
+= subscribe_to "/questions/#{@question.id}/comments"
+= subscribe_to "/questions/#{@question.id}/answers/comments"

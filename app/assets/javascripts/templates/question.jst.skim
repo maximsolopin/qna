@@ -1,0 +1,7 @@
+tr id="question_#{@question.id}"
+  td.col-md-9 = @question.title
+  td.col-md-2.text-center
+    small = "asked #{@question.created_in_words} ago"
+  td.col-md-1.text-center
+    a.fa.fa-eye href = @question.show_url
+      i.link_show Show

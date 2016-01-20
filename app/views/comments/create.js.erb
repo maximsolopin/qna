@@ -1,0 +1,8 @@
+<% if @comment.errors.present? %>
+    <% @comment.errors.full_messages.each do |message| %>
+        $('.answer-errors').html('<%= j message %>');
+    <% end %>
+<% else %>
+    $(".comments-list#<%= @comment.commentable_type.downcase %>_<%= @comment.commentable_id %>").append("<%=  j render(@comment) %>");
+    $('form#new_comment textarea').val('');
+<% end %>
