@@ -5,7 +5,7 @@ json.answer_author user_signed_in? && @answer.user_id == current_user.id
 json.user_is_signed user_signed_in?
 json.answer_link answer_path(@answer)
 json.answer_link_set_best set_best_answer_path(@answer)
-json.created "#{time_ago_in_words(@answer.created_at)} ago"
+json.created_in_words time_ago_in_words(@answer.created_at)
 json.attachments @answer.attachments do |a|
   json.id a.id
   json.name a.file.identifier

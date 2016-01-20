@@ -6,7 +6,7 @@ class CommentsController < ApplicationController
     @comment = @commentable.comments.new(comment_params)
     @comment.user = current_user
 
-    if @commentable.class.name.underscore == 'answer'
+    if @commentable.kind_of?(Answer)
       publish_to_answers = "/answers"
       question_id = @commentable.question_id
     else

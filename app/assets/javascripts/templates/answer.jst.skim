@@ -22,7 +22,7 @@
               a href = attach.url
                 = attach.name
       .text-right
-        small = @answer.created
+        small = "#{@answer.created_in_words} ago"
       .answer-votes id=@answer.dom_id
   form.edit_answer id="edit-answer-#{@answer.id}" method="post" action="/answers/#{@answer.id}" data-remote="true"
     input name="utf8" type="hidden" value="&#x2713;"
