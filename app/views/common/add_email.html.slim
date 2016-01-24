@@ -1,0 +1,7 @@
+= form_tag add_email_path, method: :post do
+  = label_tag 'Email'
+  = email_field 'auth[info]', :email, autofocus: true
+  = hidden_field_tag 'auth[provider]', auth.provider
+  = hidden_field_tag 'auth[uid]', auth.uid
+  = hidden_field_tag 'auth[info][name]', auth.info.try(:name)
+  = submit_tag 'Add email'
