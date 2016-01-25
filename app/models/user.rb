@@ -16,7 +16,7 @@ class User < ActiveRecord::Base
     authorization = Authorization.where(provider: auth.provider, uid: auth.uid.to_s).first
     return authorization.user if authorization
 
-    return if !auth.info.try(:email)
+    return unless auth.info.try(:email)
 
     email = auth.info[:email]
     name = auth.info[:name]

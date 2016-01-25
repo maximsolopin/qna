@@ -27,7 +27,7 @@ feature 'Authorization by oauth provider', %q{
 
       expect(page).to have_content 'You should add your email'
 
-      fill_in 'auth[info][email]', with: 'test@test.com'
+      fill_in 'user[email]', with: 'test@test.com'
       click_on 'Add email'
 
       expect(page).to have_content 'Successfully authenticated from Twitter account.'
