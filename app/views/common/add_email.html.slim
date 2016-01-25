@@ -1,0 +1,4 @@
+= form_tag add_email_path, method: :post do
+  = label_tag 'Email'
+  = email_field 'user', :email, autofocus: true
+  = submit_tag 'Add email'
