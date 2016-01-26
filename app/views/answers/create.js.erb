@@ -2,7 +2,4 @@
     <% @answer.errors.full_messages.each do |message| %>
         $('.answer-errors').html('<%= j message %>');
     <% end %>
-<% else %>
-    $('.answers').append("<%=  j render(@answer) %>");
-    $('form#new_answer textarea').val('');
 <% end %>
