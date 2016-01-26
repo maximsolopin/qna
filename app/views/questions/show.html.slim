@@ -10,14 +10,14 @@
           p Attachments
           ul
             = render @question.attachments
-      - if user_signed_in? && @question.user.id == current_user.id
-      .text-right
-        = link_to 'Delete question', @question, method: :delete, class: 'btn btn-danger'
+      - if can?(:manage, @question)
+        .text-right
+          = link_to 'Delete question', @question, method: :delete, class: 'btn btn-danger'
       .question-votes id="#{dom_id(@question)}"
         = render partial: 'common/votes', locals: { object: @question }
   .comments-list id="#{dom_id(@question)}"
     = render @question.comments
-  - if user_signed_in?
+  - if can?(:create, Answer)
     = render 'comments/form', commentable: @question
   .container.answers.answer-block
     = render @question.answers
@@ -26,7 +26,7 @@
     .answer-errors
     = f.text_area :body, class: 'form-control', rows: '3'
     = render 'attachments/attachment_links', f: f
-    - if user_signed_in?
+    - if can?(:create, Answer)
       .text-center = f.submit 'Create', class: 'btn btn-primary'
 
 = subscribe_to "/questions/#{@question.id}/answers"

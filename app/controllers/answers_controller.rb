@@ -1,12 +1,14 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
   before_action :set_answer, only: [:edit, :destroy, :update, :set_best]
-  before_action :check_author, only: [:destroy, :update, :set_best]
+  # before_action :check_author, only: [:destroy, :update, :set_best]
   after_action :publish_answer, only: :create
 
   include Voted
 
   respond_to :js, :json
+
+  authorize_resource
 
   def new
     respond_with(@answer = Answer.new)

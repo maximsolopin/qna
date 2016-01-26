@@ -1,13 +1,8 @@
-- if user_signed_in? && answer.user_id == current_user.id
-  = link_to answer, class: 'edit-answer-link',  data: { answer_id: answer.id } do
+- if can?(:manage, answer)
+  = link_to answer, class: 'edit-answer-link', data: { answer_id: answer.id } do
     i.fa.fa-pencil
-  /= form_for answer, remote: true, html: { id: "edit-answer-#{answer.id}" } do |f|
-  /  = f.label :body, 'Answer'
-  /  = f.text_area :body
-  /  = render 'attachments/attachment_links', f: f
-  /  = f.submit 'Save answer'
-  = link_to answer, remote: true, method: :delete, data: {confirm: 'Are you sure?'} do
+  = link_to answer, remote: true, method: :delete, data: { confirm: 'Are you sure?' } do
     i.fa.fa-times
-  - if !answer.best?
-    = link_to set_best_answer_path(answer), remote: true, method: :patch do
-      i.fa.fa-thumbs-o-up
+- if can?(:manage, question) && can?(:set_best, answer) && !answer.best?
+  = link_to set_best_answer_path(answer), remote: true, method: :patch do
+    i.fa.fa-thumbs-o-up
