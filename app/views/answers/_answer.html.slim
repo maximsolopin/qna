@@ -2,7 +2,7 @@
   div.panel.panel-primary id="answer-id-#{answer.id}" class=(answer.best? ? 'best-answer' : '')
     div.panel-heading
       = answer.user.display_name
-      .pull-right = render 'answers/links', answer: answer
+      .pull-right = render 'answers/links', answer: answer, question: answer.question
     div.panel-body
       p = answer.body
       - if answer.attachments.present?
@@ -17,5 +17,5 @@
     = render 'answers/answer_edit', answer: answer, f: f
   .comments-list id="#{dom_id(answer)}"
     = render answer.comments
-  - if user_signed_in?
+  - if can?(:create, Comment)
     = render 'comments/form', commentable: answer

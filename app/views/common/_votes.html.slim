@@ -3,7 +3,7 @@
     .col-md-2
       | Rating: #{object.votes.rating}
   .row
-    - if user_signed_in? && !(current_user.id == object.user_id)
+    -  if can?(:vote, object)
       - if object.user_voted?(current_user)
         .col-md-1
           - if object.kind_of? Question
