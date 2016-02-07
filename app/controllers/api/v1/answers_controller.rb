@@ -1,5 +1,5 @@
 class Api::V1::AnswersController < Api::V1::BaseController
-  authorize_resource Answer
+  authorize_resource
 
   before_action :set_question, only: [:index, :create]
 
@@ -25,6 +25,6 @@ class Api::V1::AnswersController < Api::V1::BaseController
   end
 
   def answer_params
-    params.require(:answer).permit(:body, :question_id, :user_id, :best)
+    params.require(:answer).permit(:body, :best)
   end
 end

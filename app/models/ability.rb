@@ -31,5 +31,7 @@ class Ability
     alias_action :vote_up, :vote_down, :vote_reset, to: :vote
     can :vote, [Question, Answer]
     cannot :vote, [Question, Answer], user: user
+
+    can :me, User, id: user.id
   end
 end

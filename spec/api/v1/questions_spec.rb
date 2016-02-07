@@ -30,7 +30,7 @@ describe 'Questions API' do
         expect(response.body).to have_json_size(2).at_path("questions")
       end
 
-      %w(id title body created_at updated_at).each do |attr|
+      %w(id title body created_at updated_at user_id).each do |attr|
         it "question object contains #{attr}" do
 
           expect(response.body).to be_json_eql(question.send(attr.to_sym).to_json).at_path("questions/0/#{attr}")
@@ -83,7 +83,7 @@ describe 'Questions API' do
         expect(response).to be_success
       end
 
-      %w(id title body created_at updated_at).each do |attr|
+      %w(id title body created_at updated_at user_id).each do |attr|
         it "question object contains #{attr}" do
           expect(response.body).to be_json_eql(question.send(attr.to_sym).to_json).at_path("question/#{attr}")
         end
@@ -149,7 +149,7 @@ describe 'Questions API' do
         end
 
         it 'change question count' do
-          expect { post '/api/v1/questions', format: :json, access_token: access_token.token, question: attributes_for(:question) }.to change(user.questions, :count).by(1)
+          expect { post '/api/v1/questions', format: :json, access_token: access_token.token, question: attributes_for(:question) }.to change(Question, :count).by(1)
         end
       end
 
@@ -160,7 +160,7 @@ describe 'Questions API' do
         end
 
         it 'doesn\'t change question count' do
-          expect { post '/api/v1/questions', format: :json, access_token: access_token.token, question: attributes_for(:invalid_question) }.to_not change(user.questions, :count)
+          expect { post '/api/v1/questions', format: :json, access_token: access_token.token, question: attributes_for(:invalid_question) }.to_not change(Question, :count)
         end
       end
     end
