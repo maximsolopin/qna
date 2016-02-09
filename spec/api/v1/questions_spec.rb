@@ -149,7 +149,7 @@ describe 'Questions API' do
         end
 
         it 'change question count' do
-          expect { post '/api/v1/questions', format: :json, access_token: access_token.token, question: attributes_for(:question) }.to change(Question, :count).by(1)
+          expect { post '/api/v1/questions', format: :json, access_token: access_token.token, question: attributes_for(:question) }.to change(user.questions, :count).by(1)
         end
       end
 

@@ -124,12 +124,11 @@ describe 'Answers API' do
         end
 
         it 'change answer count' do
-          expect { post "/api/v1/questions/#{question.id}/answers", format: :json, access_token: access_token.token, answer: attributes_for(:answer) }.to change(Answer, :count).by(1)
+          expect { post "/api/v1/questions/#{question.id}/answers", format: :json, access_token: access_token.token, answer: attributes_for(:answer) }.to change(question.answers, :count).by(1)
         end
 
-        it 'answer has a user' do
-          post "/api/v1/questions/#{question.id}/answers", format: :json, access_token: access_token.token, answer: attributes_for(:answer)
-          expect(response.body).to be_json_eql(user.id).at_path('answer/user_id')
+        it 'user has an answer' do
+          expect { post "/api/v1/questions/#{question.id}/answers", format: :json, access_token: access_token.token, answer: attributes_for(:answer) }.to change(user.answers, :count).by(1)
         end
       end
 
