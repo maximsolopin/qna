@@ -150,49 +150,5 @@ describe AnswersController do
     end
   end
 
-  describe 'patch #vote_up' do
-    subject { patch :vote_up, question_id: question, id: answer_second, format: :json }
-
-    let(:answer) { create(:answer, question: question, user: @user) }
-    let(:answer_second) { create(:answer, question: question, user: user_second) }
-
-    it 'can vote for answer' do
-       expect { subject }.to change(answer_second.votes, :count)
-       expect(answer_second.votes.rating).to eq 1
-       expect(response).to render_template :vote
-    end
-
-    it 'vote for yours answer' do
-       expect { subject }.to_not change(answer.votes, :count)
-    end
-  end
-
-  describe 'patch #vote_down' do
-    subject { patch :vote_down, question_id: question, id: answer_second, format: :json }
-
-    let(:answer) { create(:answer, question: question, user: @user) }
-    let(:answer_second) { create(:answer, question: question, user: user_second) }
-    
-    it 'can vote for answer' do
-       expect { subject }.to change(answer_second.votes, :count)
-       expect(answer_second.votes.rating).to eq -1
-       expect(response).to render_template :vote
-    end
-
-    it 'vote for yours answer' do
-       expect { subject }.to_not change(answer.votes, :count)
-    end
-  end
-
-  describe 'patch #vote_reset' do
-    let(:answer) { create(:answer, question: question, user: @user) }
-    let(:answer_second) { create(:answer, question: question, user: user_second) }
-    
-    it 'can reset votes for answer' do
-      patch :vote_up, question_id: question, id: answer_second, format: :json
-      expect { patch :vote_reset, question_id: question, id: answer_second, format: :json }.to change(answer_second.votes, :count)
-       expect(answer_second.votes.rating).to eq 0
-       expect(response).to render_template :vote
-    end
-  end
+  it_behaves_like 'Votable', Answer
 end
