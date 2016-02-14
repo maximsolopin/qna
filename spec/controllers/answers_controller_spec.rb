@@ -15,7 +15,7 @@ describe AnswersController do
       subject { post :create, answer: attributes_for(:answer), question_id: question, format: :js }
 
       it 'saves the new answer in the database' do
-        expect { subject }.to change(Answer, :count).by(1)
+        expect { subject }.to change(@user.answers, :count).by(1)
       end
 
       it 'answer should be added to question' do
