@@ -36,4 +36,10 @@ class User < ActiveRecord::Base
   def create_authorization(auth)
     self.authorizations.create(provider: auth.provider, uid: auth.uid)
   end
+  #
+  # def self.send_daily_digest
+  #   find_each.each do |user|
+  #     DailyMailer.delay.digest(user)
+  #   end
+  # end
 end
