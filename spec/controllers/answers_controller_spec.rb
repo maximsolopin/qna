@@ -12,29 +12,35 @@ describe AnswersController do
 
   describe 'POST #create' do
     context 'with valid attributes' do
-      before { post :create, answer: attributes_for(:answer), question_id: question, format: :js }
+      subject { post :create, answer: attributes_for(:answer), question_id: question, format: :js }
 
       it 'saves the new answer in the database' do
-        expect { post :create, answer: attributes_for(:answer), question_id: question, format: :js }.to change(Answer, :count).by(1)
+        expect { subject }.to change(@user.answers, :count).by(1)
       end
 
       it 'answer should be added to question' do
-        expect { post :create, answer: attributes_for(:answer), question_id: question, format: :js }.to change(question.answers, :count).by(1)
+        expect { subject }.to change(question.answers, :count).by(1)
       end
 
       it 'render create template' do
-        post :create, answer: attributes_for(:answer), question_id: question, format: :js
+        subject
         expect(response).to render_template :create
+      end
+
+      it_behaves_like 'Publishable' do
+        let(:channel) { "/questions/#{question.id}/answers" }
       end
     end
 
     context 'with invalid attributes' do
+      subject { post :create, answer: attributes_for(:invalid_answer), question_id: question, format: :js }
+
       it 'does not save the answer in the database' do
-        expect { post :create, answer: attributes_for(:invalid_answer), question_id: question, format: :js }.to_not change(Answer, :count)
+        expect { subject }.to_not change(Answer, :count)
       end
 
       it 'render create template' do
-        post :create, answer: attributes_for(:invalid_answer), question_id: question, format: :js
+        subject
         expect(response).to render_template :create
       end
     end
@@ -42,13 +48,15 @@ describe AnswersController do
 
   describe 'PATCH #update' do
     context 'valid attributes' do
+      subject { patch :update, id: answer, answer: { body: 'new body' }, question_id: question, format: :js }
+
+      before { subject }
+
       it 'assigns the requested answer to @answer' do
-        patch :update, id: answer, answer: attributes_for(:answer), question_id: question, format: :js
         expect(assigns(:answer)).to eq answer
       end
 
       it 'change answer attributes' do
-        patch :update, id: answer, answer: { body: 'new body' }, question_id: question, format: :js
         answer.reload
         expect(answer.body).to eq 'new body'
       end
@@ -56,17 +64,18 @@ describe AnswersController do
       it 'change not yours answer attributes' do
         patch :update, id: answer_second, answer: { body: 'new body' }, question_id: question, format: :js
         answer.reload
-        expect(answer.body).to_not eq 'new body'
+        expect(answer_second.body).to_not eq 'new body'
       end
 
       it 'render update template' do
-        patch :update, id: answer, answer: attributes_for(:answer), question_id: question, format: :js
         expect(response).to render_template :update
       end
     end
 
     context 'invalid attributes' do
-      before { patch :update, id: answer, answer: { body: nil }, question_id: question, format: :js }
+      subject { patch :update, id: answer, answer: { body: nil }, question_id: question, format: :js }
+
+      before { subject }
 
       it 'does not change answer attributes' do
         answer.reload
@@ -90,23 +99,27 @@ describe AnswersController do
 
   describe 'DELETE #destroy' do
     context 'valid user' do
-      before { answer }
+      subject { delete :destroy, id: answer, question_id: question, format: :js }
+
+      before  { answer }
 
       it 'deletes answer' do
-        expect { delete :destroy, id: answer, question_id: question, format: :js }.to change(Answer, :count).by(-1)
+        expect { subject }.to change(Answer, :count).by(-1)
       end
 
       it 'render template destroy' do
-        delete :destroy, id: answer, question_id: question, format: :js
+        subject
         expect(response).to render_template :destroy
       end
     end
 
     context 'invalid user' do
+      subject { delete :destroy, id: answer_second, question_id: question, format: :js }
+
       before { answer_second }
 
       it 'deletes answer' do
-        expect { delete :destroy, id: answer_second, question_id: question, format: :js }.to change(Answer, :count).by(0)
+        expect { subject }.to change(Answer, :count).by(0)
       end
 
       it 'has a 200 status code' do
@@ -116,7 +129,9 @@ describe AnswersController do
   end
 
   describe 'PATCH #set_best' do
-    before { patch :set_best, question_id: question, id: answer, format: :js  }
+    subject { patch :set_best, question_id: question, id: answer, format: :js  }
+
+    before { subject }
 
     it 'assigns answer to @answer' do
       expect(assigns(:answer)).to eq answer
@@ -135,45 +150,5 @@ describe AnswersController do
     end
   end
 
-  describe 'patch #vote_up' do
-    let(:answer) { create(:answer, question: question, user: @user) }
-    let(:answer_second) { create(:answer, question: question, user: user_second) }
-    
-    it 'can vote for answer' do
-       expect { patch :vote_up, question_id: question, id: answer_second, format: :json }.to change(answer_second.votes, :count)
-       expect(answer_second.votes.rating).to eq 1
-       expect(response).to render_template :vote
-    end
-
-    it 'vote for yours answer' do
-       expect { patch :vote_up, question_id: question, id: answer, format: :json }.to_not change(answer.votes, :count)
-    end
-  end
-
-  describe 'patch #vote_down' do
-    let(:answer) { create(:answer, question: question, user: @user) }
-    let(:answer_second) { create(:answer, question: question, user: user_second) }
-    
-    it 'can vote for answer' do
-       expect { patch :vote_down, question_id: question, id: answer_second, format: :json }.to change(answer_second.votes, :count)
-       expect(answer_second.votes.rating).to eq -1
-       expect(response).to render_template :vote
-    end
-
-    it 'vote for yours answer' do
-       expect { patch :vote_down, question_id: question, id: answer, format: :json }.to_not change(answer.votes, :count)
-    end
-  end
-
-  describe 'patch #vote_reset' do
-    let(:answer) { create(:answer, question: question, user: @user) }
-    let(:answer_second) { create(:answer, question: question, user: user_second) }
-    
-    it 'can reset votes for answer' do
-       patch :vote_up, question_id: question, id: answer_second, format: :json
-       expect { patch :vote_reset, question_id: question, id: answer_second, format: :json }.to change(answer_second.votes, :count)
-       expect(answer_second.votes.rating).to eq 0
-       expect(response).to render_template :vote
-    end
-  end
+  it_behaves_like 'Votable', Answer
 end

@@ -36,4 +36,4 @@ RSpec.describe Vote, type: :model do
       expect(object.votes.rating).to eq 1
     end
   end
- end
+end
