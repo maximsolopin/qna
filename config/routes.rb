@@ -26,6 +26,8 @@ Rails.application.routes.draw do
       resources :comments, defaults: { commentable: 'answers' }
       patch 'set_best', on: :member
     end
+    post :subscribe, on: :member
+    post :unsubscribe, on: :member
   end
 
   namespace :api do
