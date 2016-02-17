@@ -1,6 +1,6 @@
 class Subscription < ActiveRecord::Base
-  belongs_to :subscription, class_name: 'Question', foreign_key: 'question_id'
-  belongs_to :subscribers, class_name: 'User', foreign_key: 'user_id'
+  belongs_to :user
+  belongs_to :question
 
-  validates :subscription, :subscribers, presence: true
+  validates :question_id, :user_id, presence: true
 end

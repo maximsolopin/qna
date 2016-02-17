@@ -53,16 +53,16 @@ RSpec.describe Ability, type: :model do
     it { should be_able_to :manage, attachment, user: user }
     it { should_not be_able_to :manage, other_attachment, user: user }
 
-    it { should be_able_to :subscribe, create(:question), user: user }
-    it "can't subscribe twice" do
-      subscribed.subscribe user
-      should_not be_able_to :subscribe, subscribed, user: user
-    end
-
-    it { should_not be_able_to :unsubscribe, create(:question), user: user }
-    it 'can unsubscribe if subscribed' do
-      subscribed.subscribe user
-      should be_able_to :unsubscribe, subscribed, user: user
-    end
+    # it { should be_able_to :subscribe, create(:question), user: user }
+    # it "can't subscribe twice" do
+    #   subscribed.subscribe user
+    #   should_not be_able_to :subscribe, subscribed, user: user
+    # end
+    #
+    # it { should_not be_able_to :unsubscribe, create(:question), user: user }
+    # it 'can unsubscribe if subscribed' do
+    #   subscribed.subscribe user
+    #   should be_able_to :unsubscribe, subscribed, user: user
+    # end
   end
 end

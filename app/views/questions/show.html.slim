@@ -16,10 +16,10 @@
       .question-votes id="#{dom_id(@question)}"
         = render partial: 'common/votes', locals: { object: @question }
       .subscriptions
-        - if can? :subscribe, @question
-          = link_to 'Subscribe', subscribe_question_path(@question), method: :post
-        - if can? :unsubscribe, @question
-          = link_to 'Unsubscribe', unsubscribe_question_path(@question), method: :post
+        - if current_user && !@question.subscribed?(current_user)
+          = link_to 'Subscribe', question_subscription_path(@question), method: :post
+        - if current_user && @question.subscribed?(current_user)
+          = link_to 'Unsubscribe', question_subscription_path(@question), method: :delete
   .comments-list id="#{dom_id(@question)}"
     = render @question.comments
   - if can?(:create, Answer)

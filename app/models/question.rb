@@ -7,7 +7,7 @@ class Question < ActiveRecord::Base
   belongs_to :user
 
   has_many :subscriptions, dependent: :destroy
-  has_many :subscribers, through: :subscriptions, class_name: 'User', dependent: :destroy
+  # has_many :subscribers, through: :subscriptions, class_name: 'User', dependent: :destroy
 
   scope :last_day_questions, -> { where(created_at: 1.day.ago.all_day) }
 
@@ -16,22 +16,14 @@ class Question < ActiveRecord::Base
   validates :user_id, presence: true
 
   after_create :subscribe_author
-
-  def subscribe(user)
-    subscribers << user unless subscribed?(user)
-  end
-  
-  def unsubscribe(user)
-    subscribers.delete(user) if subscribed?(user)
-  end
   
   def subscribed?(user)
-    subscribers.include? user
+    !!self.subscriptions.where(user_id: user.id).first
   end
 
   private
 
   def subscribe_author
-    subscribe(user)
+    self.subscriptions.create(user: user)
   end
 end

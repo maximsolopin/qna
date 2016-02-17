@@ -35,17 +35,17 @@ class QuestionsController < ApplicationController
     respond_with(@question.destroy)
   end
 
-  def subscribe
-    @question.subscribe(current_user)
-    flash[:notice] = "You've successfully subscribed to the question"
-    redirect_to @question
-  end
-
-  def unsubscribe
-    @question.unsubscribe(current_user)
-    flash[:notice] = "You've successfully unsubscribed"
-    redirect_to @question
-  end
+  # def subscribe
+  #   @question.subscribe(current_user)
+  #   flash[:notice] = "You've successfully subscribed to the question"
+  #   redirect_to @question
+  # end
+  #
+  # def unsubscribe
+  #   @question.unsubscribe(current_user)
+  #   flash[:notice] = "You've successfully unsubscribed"
+  #   redirect_to @question
+  # end
 
   private
 

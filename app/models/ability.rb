@@ -34,12 +34,12 @@ class Ability
 
     can :me, User, id: user.id
 
-    can :subscribe, Question do |q|
-      !q.subscribed?(user)
+    can :create, Subscription do |s|
+      !s.question.subscribed?(user)
     end
 
-    can :unsubscribe, Question do |q|
-      q.subscribed?(user)
+    can :destroy, Subscription do |s|
+      s.question.subscribed?(user)
     end
   end
 end

@@ -5,7 +5,7 @@ RSpec.describe NotifyUsersJob, type: :job do
   let(:question) { create :question }
 
   it 'sends notification for question' do
-    question.subscribers.each { |user| expect(SubscribersMailer).to receive(:question_notifier).with(user, question).and_call_original }
+    question.subscriptions.find_each { |s| expect(SubscribersMailer).to receive(:question_notifier).with(s.user, question).and_call_original }
     NotifyUsersJob.perform_now(question)
   end
 end
