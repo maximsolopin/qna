@@ -39,6 +39,11 @@ RSpec.describe Answer, type: :model do
     end
   end
 
+  it 'notify users' do
+    expect(NotifyUsersJob).to receive(:perform_later).with(question)
+    Answer.create!(attributes_for(:answer).merge(question: question, user: user))
+  end
+
   it_behaves_like 'Attachable'
   it_behaves_like 'Commentable'
 end

@@ -33,5 +33,13 @@ class Ability
     cannot :vote, [Question, Answer], user: user
 
     can :me, User, id: user.id
+
+    can :create, Question do |q|
+      !q.subscribed?(user)
+    end
+
+    can :destroy, Question do |q|
+      q.subscribed?(user)
+    end
   end
 end

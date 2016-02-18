@@ -28,6 +28,7 @@ RSpec.describe Ability, type: :model do
     let(:other_answer) { create :answer, question: other_question, user: other_user }
     let(:attachment) { create :attachment, attachable: question }
     let(:other_attachment) { create :attachment, attachable: other_question }
+    let!(:subscribed) { create :question }
 
     it { should_not be_able_to :manage, :all }
     it { should be_able_to :read, :all }
@@ -51,5 +52,17 @@ RSpec.describe Ability, type: :model do
 
     it { should be_able_to :manage, attachment, user: user }
     it { should_not be_able_to :manage, other_attachment, user: user }
+
+    it { should be_able_to :create, subscribed, user: user }
+    it "can't subscribe twice" do
+      subscribed.subscriptions.create(user: user)
+      should_not be_able_to :create, subscribed, user: user
+    end
+
+    it { should_not be_able_to :destroy, subscribed, user: user }
+    it 'can unsubscribe if subscribed' do
+      subscribed.subscriptions.create(user: user)
+      should be_able_to :destroy, subscribed, user: user
+    end
   end
 end

@@ -1,6 +1,6 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
-  before_action :set_question, only: [:show, :edit, :update, :destroy]
+  before_action :set_question, only: [:show, :edit, :update, :destroy, :subscribe, :unsubscribe]
   # before_action :check_author, only: [:destroy, :update]
   after_action :publish_question, only: :create
 
@@ -34,6 +34,18 @@ class QuestionsController < ApplicationController
   def destroy
     respond_with(@question.destroy)
   end
+
+  # def subscribe
+  #   @question.subscribe(current_user)
+  #   flash[:notice] = "You've successfully subscribed to the question"
+  #   redirect_to @question
+  # end
+  #
+  # def unsubscribe
+  #   @question.unsubscribe(current_user)
+  #   flash[:notice] = "You've successfully unsubscribed"
+  #   redirect_to @question
+  # end
 
   private
 
