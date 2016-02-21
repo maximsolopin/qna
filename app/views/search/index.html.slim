@@ -1,0 +1,6 @@
+- if @result.blank?
+  h2 Result not found!
+- else
+  h2 Result:
+  - @result.each do |r|
+    = render "#{r.class.name.downcase}", result: r

@@ -1,0 +1,4 @@
+- if result.commentable.is_a? Question
+  h2 = link_to result.body.truncate(30), result.commentable
+- else
+  h2 = link_to result.body.truncate(30), result.commentable.question

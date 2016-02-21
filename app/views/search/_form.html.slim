@@ -1,0 +1,6 @@
+.navbar-form.navbar-right
+  = form_tag search_index_path, method: 'get'
+    .input-sm
+      = text_field_tag :query, params[:query], placeholder: 'Search'
+      = select_tag(:condition, options_for_select(%w(Everywhere Users Questions Answers Comments)))
+      = submit_tag 'Search', class: 'btn btn-primary btn-xs'
