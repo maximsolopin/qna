@@ -9,10 +9,11 @@ class SearchController < ApplicationController
   private
 
   def load_result
-    if params[:condition] == 'Everywhere'
-      @result = ThinkingSphinx.search params[:query]
+    search = Search.new(params[:query], params[:condition])
+    if search.valid?
+      @result = search.search
     else
-      @result = ThinkingSphinx.search params[:query], classes: [params[:condition].classify.constantize]
+      flash[:error] = search.errors.full_messages
     end
   end
 end
