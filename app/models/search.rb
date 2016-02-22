@@ -3,7 +3,7 @@ class Search
 
   attr_accessor :query, :condition
 
-  validates_presence_of :query
+  validates :query, presence: true
   validate :include_in_conditions
 
   CONDITIONS = %w(Everywhere Questions Answers Comments Users)
