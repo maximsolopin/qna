@@ -29,6 +29,7 @@ Rails.application.routes.draw do
     resource :subscription, only: [:create, :destroy]
   end
 
+  resources :search, :only => [:index]
 
   namespace :api do
     namespace :v1 do
