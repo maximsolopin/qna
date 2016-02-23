@@ -14,6 +14,7 @@ class Search
   end
 
   def search
+    return unless valid?
     classes = @condition == 'Everywhere' ? nil : @condition.classify.constantize
     ThinkingSphinx.search Riddle::Query.escape(@query), classes: [classes]
   end

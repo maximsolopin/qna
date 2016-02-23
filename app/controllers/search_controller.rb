@@ -10,10 +10,8 @@ class SearchController < ApplicationController
 
   def load_result
     search = Search.new(params[:query], params[:condition])
-    if search.valid?
-      @result = search.search
-    else
-      flash[:error] = search.errors.full_messages
-    end
+    @result = search.search
+
+    flash[:error] = search.errors.full_messages unless search.valid?
   end
 end
