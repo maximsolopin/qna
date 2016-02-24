@@ -1,9 +1,3 @@
-GIT
-  remote: https://github.com/l-plan/trix_on_rails.git
-  revision: 1d358e4a342f68bd5b14e7c4af5acb98680db610
-  specs:
-    trix_on_rails (0.1.4)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -62,6 +56,19 @@ GEM
     builder (3.2.2)
     byebug (8.1.0)
     cancancan (1.13.1)
+    capistrano (3.4.0)
+      i18n
+      rake (>= 10.0.0)
+      sshkit (~> 1.3)
+    capistrano-bundler (1.1.4)
+      capistrano (~> 3.1)
+      sshkit (~> 1.2)
+    capistrano-rails (1.1.6)
+      capistrano (~> 3.1)
+      capistrano-bundler (~> 1.1)
+    capistrano-rvm (0.1.2)
+      capistrano (~> 3.0)
+      sshkit (~> 1.2)
     capybara (2.5.0)
       mime-types (>= 1.16)
       nokogiri (>= 1.3.3)
@@ -101,6 +108,9 @@ GEM
     diff-lcs (1.2.5)
     doorkeeper (3.1.0)
       railties (>= 3.2)
+    dotenv (1.0.2)
+    dotenv-deployment (0.3.0)
+      dotenv (~> 1.0)
     em-http-request (1.1.2)
       addressable (>= 2.3.4)
       cookiejar
@@ -168,6 +178,9 @@ GEM
     multi_xml (0.5.5)
     multipart-post (2.0.0)
     mysql2 (0.4.2)
+    net-scp (1.2.1)
+      net-ssh (>= 2.6.5)
+    net-ssh (3.0.2)
     nokogiri (1.6.6.2)
       mini_portile (~> 0.6.0)
     oauth (0.4.7)
@@ -295,6 +308,9 @@ GEM
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (>= 2.8, < 4.0)
+    sshkit (1.8.1)
+      net-scp (>= 1.1.2)
+      net-ssh (>= 2.8.0)
     temple (0.7.6)
     thin (1.6.4)
       daemons (~> 1.0, >= 1.0.9)
@@ -343,6 +359,10 @@ DEPENDENCIES
   bootstrap_helper
   byebug
   cancancan
+  capistrano
+  capistrano-bundler
+  capistrano-rails
+  capistrano-rvm
   capybara
   capybara-webkit
   carrierwave
@@ -351,6 +371,8 @@ DEPENDENCIES
   database_cleaner
   devise
   doorkeeper
+  dotenv
+  dotenv-deployment
   factory_girl_rails
   font-awesome-sass
   jbuilder (~> 2.0)
@@ -380,7 +402,6 @@ DEPENDENCIES
   spring
   thin
   thinking-sphinx
-  trix_on_rails!
   turbolinks
   uglifier (>= 1.3.0)
   web-console (~> 2.0)
