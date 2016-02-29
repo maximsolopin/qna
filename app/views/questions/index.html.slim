@@ -1,21 +1,22 @@
-div.container
-  div.background-style
-    div.text-center
-      h1.text-info Listing questions
+- cache collection_cache_key_for :question do
+  div.container
+    div.background-style
+      div.text-center
+        h1.text-info Listing questions
 
-table.table.table-hover.question-list
-  tbody
-    - @questions.each do |q|
-      tr id="#{dom_id(q)}"
-        td.col-md-9 = q.title
-        td.col-md-2.text-center
-          small = "asked #{time_ago_in_words(q.created_at)} ago"
-        td.col-md-1.text-center = link_to '<i class= "link_show">Show</i>'.html_safe, question_path(q), class: 'fa fa-eye'
+  table.table.table-hover.question-list
+    tbody
+      - @questions.each do |q|
+        tr id="#{dom_id(q)}"
+          td.col-md-9 = q.title
+          td.col-md-2.text-center
+            small = "asked #{time_ago_in_words(q.created_at)} ago"
+          td.col-md-1.text-center = link_to '<i class= "link_show">Show</i>'.html_safe, question_path(q), class: 'fa fa-eye'
 
-div.text-center
-  nav
-    div.btn-group
-      = link_to 'Back', root_path, class: 'btn btn-primary', role: 'button'
-      = link_to 'Ask Question', new_question_path, class: 'btn btn-success', role: 'button'
+  div.text-center
+    nav
+      div.btn-group
+        = link_to 'Back', root_path, class: 'btn btn-primary', role: 'button'
+        = link_to 'Ask Question', new_question_path, class: 'btn btn-success', role: 'button'
 
 = subscribe_to "/questions"

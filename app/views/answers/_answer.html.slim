@@ -3,12 +3,13 @@
     div.panel-heading
       = answer.user.display_name
       .pull-right = render 'answers/links', answer: answer, question: answer.question
-    div.panel-body
-      p = answer.body
-      - if answer.attachments.present?
-        p Attachments
-        ul
-          = render answer.attachments
+    - cache answer do
+      div.panel-body
+        p = answer.body
+        - if answer.attachments.present?
+          p Attachments
+          ul
+            = render answer.attachments
       .text-right
         small #{time_ago_in_words(answer.created_at)} ago
       .answer-votes id="#{dom_id(answer)}"

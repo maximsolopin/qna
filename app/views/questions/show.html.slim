@@ -1,38 +1,39 @@
-.container.question.question-block data={question_id: "#{@question.id}"}
-  .panel.panel-default
-    .panel-body
-      .center.text-title
-        h3 = @question.title
-      div.text
-        = @question.body
-        div.attachments
-          - if @question.attachments.present?
-          p Attachments
-          ul
-            = render @question.attachments
-      - if can?(:manage, @question)
-        .text-right
-          = link_to 'Delete question', @question, method: :delete, class: 'btn btn-danger'
-      .question-votes id="#{dom_id(@question)}"
-        = render partial: 'common/votes', locals: { object: @question }
-      .subscriptions
-        - if can?(:create, @question)
-          = link_to 'Subscribe', question_subscription_path(@question), method: :post
-        - if can?(:destroy, @question)
-          = link_to 'Unsubscribe', question_subscription_path(@question), method: :delete
-  .comments-list id="#{dom_id(@question)}"
-    = render @question.comments
-  - if can?(:create, Answer)
-    = render 'comments/form', commentable: @question
-  .container.answers.answer-block
-    = render @question.answers
-  = form_for [@question, @answer], remote: true do |f|
-    = f.label :body, 'Your answer'
-    .answer-errors
-    = f.text_area :body, class: 'form-control', rows: '3'
-    = render 'attachments/attachment_links', f: f
+- cache @question do
+  .container.question.question-block data={question_id: "#{@question.id}"}
+    .panel.panel-default
+      .panel-body
+        .center.text-title
+          h3 = @question.title
+        div.text
+          = @question.body
+          div.attachments
+            - if @question.attachments.present?
+            p Attachments
+            ul
+              = render @question.attachments
+        - if can?(:manage, @question)
+          .text-right
+            = link_to 'Delete question', @question, method: :delete, class: 'btn btn-danger'
+        .question-votes id="#{dom_id(@question)}"
+          = render partial: 'common/votes', locals: { object: @question }
+        .subscriptions
+          - if can?(:create, @question)
+            = link_to 'Subscribe', question_subscription_path(@question), method: :post
+          - if can?(:destroy, @question)
+            = link_to 'Unsubscribe', question_subscription_path(@question), method: :delete
+    .comments-list id="#{dom_id(@question)}"
+      = render @question.comments
     - if can?(:create, Answer)
-      .text-center = f.submit 'Create', class: 'btn btn-primary'
+      = render 'comments/form', commentable: @question
+    .container.answers.answer-block
+      = render @question.answers
+    = form_for [@question, @answer], remote: true do |f|
+      = f.label :body, 'Your answer'
+      .answer-errors
+      = f.text_area :body, class: 'form-control', rows: '3'
+      = render 'attachments/attachment_links', f: f
+      - if can?(:create, Answer)
+        .text-center = f.submit 'Create', class: 'btn btn-primary'
 
 = subscribe_to "/questions/#{@question.id}/answers"
 = subscribe_to "/questions/#{@question.id}/comments"
