@@ -18,5 +18,5 @@
 //= require private_pub
 //= require skim
 //= require cocoon
-//= requir_tree ./templates
+//= require_tree ./templates
 //= require_tree .
